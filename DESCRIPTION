@@ -10,3 +10,4 @@ LazyData: true
 Suggests: testthat
 Imports: deSolve, dplyr
 RoxygenNote: 6.1.0
+Roxygen: list(markdown = TRUE)
