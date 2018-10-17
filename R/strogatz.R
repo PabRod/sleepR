@@ -11,6 +11,10 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 
 strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
 
+  # Load required libraries
+  library(deSolve)
+  library(dplyr)
+
   # Solve
   ys <- ode(y = y0,
             func = dStrogatz,
