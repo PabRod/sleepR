@@ -28,7 +28,7 @@ reshape_as_raster <- function(sol, dailySamples = 480) {
   sol <- filter(sol, time_days <= nDays)
 
   # Resample at a higher resolution
-  ts_interp <- seq(0, nDays, length.out = dailySamples * nDays)
+  ts_interp <- seq(0, nDays, length.out = 2 * dailySamples * nDays)
   interpolator <- approxfun(sol$time_days, sol$asleep, method = 'constant')
 
   ## Reshape the vector as a raster plot
@@ -38,9 +38,9 @@ reshape_as_raster <- function(sol, dailySamples = 480) {
   # Row 3: days 3 and 4
   # ...
   # Row N: days N and N+1
-  asleep <- matrix(NaN, nrow=nDays-1, ncol = dailySamples)
+  asleep <- matrix(NaN, nrow=nDays-1, ncol = 2 * dailySamples)
   for (i in 1:nDays-1) {
-    ts_eval <- seq(i-1, i+1, length.out = dailySamples) # Evaluate two days per row
+    ts_eval <- seq(i-1, i+1, length.out = 2 * dailySamples) # Evaluate two days per row
     asleep[i, ] <- interpolator(ts_eval)
   }
 
