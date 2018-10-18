@@ -24,3 +24,20 @@ test_that('Raster vector',
           }
 
 )
+
+test_that('Raster plot',
+          {
+            # Calculate a solution
+            y0 <- c(th1 = 0.1, th2 = 0.05) # Initial conditions
+            nDays <- 6 # Times
+            ts <- seq(0, nDays*24, length.out=nDays*24*20)
+            sol <- strogatz(ts, y0) # Simulate
+
+            # Generate the raster plot
+            dailySamples <- 480
+            rasterPlot(sol, dailySamples = dailySamples)
+
+            # Just check that the code doesn't crash
+            expect_true(TRUE)
+          }
+)
