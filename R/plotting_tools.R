@@ -29,7 +29,7 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
   ys <- seq(0, nDays-1)
 
   # And plot it
-  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(asleepCol, awakeCol))
+  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(awakeCol, asleepCol))
 }
 
 #' Reshape as raster vector
