@@ -4,12 +4,17 @@
 \alias{rasterPlot}
 \title{Raster plot / somnogram}
 \usage{
-rasterPlot(sol, dailySamples = 480)
+rasterPlot(sol, dailySamples = 480, asleepCol = "grey26",
+  awakeCol = "cyan")
 }
 \arguments{
 \item{sol}{Simulation (output of \code{\link{strogatz}})}
 
 \item{dailySamples}{Number of samples per day (optional)}
+
+\item{asleepCol}{Color for asleep state (optional)}
+
+\item{awakeCol}{Color for awake state (optional)}
 }
 \value{
 Plots the raster plot / somnogram

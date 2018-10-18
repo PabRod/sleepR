@@ -2,6 +2,8 @@
 #'
 #' @param sol Simulation (output of \code{\link{strogatz}})
 #' @param dailySamples Number of samples per day (optional)
+#' @param asleepCol Color for asleep state (optional)
+#' @param awakeCol Color for awake state (optional)
 #'
 #' @return Plots the raster plot / somnogram
 #' @export
@@ -14,7 +16,7 @@
 #' sol <- strogatz(ts, y0)
 #' # Create raster plot
 #' rasterPlot(sol)
-rasterPlot <- function(sol, dailySamples = 480) {
+rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol = 'cyan' ) {
   # Use day as time unit
   sol$time_days <- sol$time / 24
 
@@ -27,7 +29,7 @@ rasterPlot <- function(sol, dailySamples = 480) {
   ys <- seq(0, nDays-1)
 
   # And plot it
-  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd')
+  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(asleepCol, awakeCol))
 }
 
 #' Reshape as raster vector

@@ -99,6 +99,7 @@ sol_non_entrained <- strogatz(ts, y0, parms_non_entrained)
 
 # Plot
 rasterPlot(sol_entrained)
+title('Entrained')
 rasterPlot(sol_non_entrained)
-
+title('Not entrained')
 ```
