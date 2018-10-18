@@ -43,6 +43,8 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #'
 #' @return Results of the simulation, including times, states and asleep/awake status
 #' @export
+#' @importFrom deSolve ode
+#' @importFrom dplyr mutate
 #'
 #' @examples
 #' y0 <- c(th1 = 0.1, th2 = 0.05)
@@ -50,10 +52,6 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #' ts <- seq(0, nDays*24, length.out=nDays*24*10)
 #' ys <- strogatz(ts, y0)
 strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
-
-  # Load required libraries
-  library(deSolve)
-  library(dplyr)
 
   # Solve
   ys <- ode(y = y0,

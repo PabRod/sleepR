@@ -3,3 +3,5 @@
 export(dStrogatz)
 export(strogatz)
 export(strogatz_default_parms)
+importFrom(deSolve,ode)
+importFrom(dplyr,mutate)
