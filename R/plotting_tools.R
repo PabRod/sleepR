@@ -6,7 +6,10 @@
 #' @param awakeCol Color for awake state (optional)
 #'
 #' @return Plots the raster plot / somnogram
+#'
 #' @export
+#' @importFrom graphics image
+#' @importFrom utils tail
 #'
 #' @examples
 #' # Simulate a solution
@@ -38,7 +41,10 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #' @param dailySamples Number of samples per day (optional)
 #'
 #' @return The asleep vector reshaped as a raster vector
+#'
 #' @importFrom dplyr filter
+#' @importFrom stats approxfun
+#' @importFrom utils tail
 #'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 #'

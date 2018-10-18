@@ -45,6 +45,7 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #' @param parms Model parameters (optional, see \code{\link{strogatz_default_parms}})
 #'
 #' @return Results of the simulation, including times, states and asleep/awake status
+#'
 #' @export
 #' @importFrom deSolve ode
 #' @importFrom dplyr mutate
@@ -89,6 +90,7 @@ strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
 #' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
 #'
 #' @return The default parameters for Strogatz's model
+#'
 #' @export
 #'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
