@@ -1,6 +1,21 @@
 context('Model by Strogatz')
 
-test_that('Defaults',
+test_that('Parameters',
+          {
+            # Load the default parameters
+            parms <- strogatz_default_parms()
+
+            # Check
+            class_expected <- 'numeric'
+            names_expected <- c('w1', 'w2', 'C1', 'C2')
+
+            expect_true(class(parms) == class_expected)
+            expect_true(length(parms) == length(names_expected))
+            expect_true(all(names(parms) == names_expected))
+          }
+          )
+
+test_that('Flow',
           {
             # Create a simple input
             t <- 0
