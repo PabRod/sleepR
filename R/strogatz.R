@@ -65,17 +65,17 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
 
   # Solve
-  ys <- ode(y = y0,
+  sol <- ode(y = y0,
             func = dStrogatz,
             times = ts,
             parms = parms)
 
   # Transform into data frame
-  ys <- as.data.frame(ys)
+  sol <- as.data.frame(sol)
 
   # Implement sleep-awake criterion
-  ys <- mutate(ys, th1 = th1%%1, th2 = th2%%1)
-  ys <- mutate(ys, asleep = (th2 >= 0.0) & (th2 <= 1/3))
+  sol <- mutate(sol, th1 = th1%%1, th2 = th2%%1)
+  sol <- mutate(sol, asleep = (th2 >= 0.0) & (th2 <= 1/3))
 
 }
 
