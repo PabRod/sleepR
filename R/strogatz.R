@@ -2,16 +2,21 @@
 #'
 #' Generates the flow (right hand side of the differential equation) for the Strogatz's model
 #'
-#' Strogatz, S. H. (1987).
-#' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
-#' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
-#'
 #' @param time The time (in h)
 #' @param y  The state
 #' @param parms Model's parameters (optional, see \code{\link{strogatz_default_parms}})
 #'
 #' @return The flow (right hand side of the differential equation)
 #' @export
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Strogatz, S. H. (1987).
+#' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
+#' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
+#'
+#' @seealso \code{\link{strogatz}, \link{strogatz_default_parms}}
 #'
 #' @examples
 #' t <- 0
@@ -33,9 +38,6 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #'
 #' Solves the Strogatz's model for the given times, initial condition and parameters
 #'
-#' Strogatz, S. H. (1987).
-#' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
-#' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
 #'
 #' @param ts Vector of times (in h)
 #' @param y0 Initial condition
@@ -45,6 +47,15 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #' @export
 #' @importFrom deSolve ode
 #' @importFrom dplyr mutate
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Strogatz, S. H. (1987).
+#' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
+#' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
+#'
+#' @seealso \code{\link{dStrogatz}, \link{strogatz_default_parms}}
 #'
 #' @examples
 #' y0 <- c(th1 = 0.1, th2 = 0.05)
@@ -78,6 +89,15 @@ strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
 #'
 #' @return The default parameters for Strogatz's model
 #' @export
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Strogatz, S. H. (1987).
+#' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
+#' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
+#'
+#' @seealso \code{\link{strogatz}, \link{dStrogatz}}
 #'
 #' @examples
 #' parms <- strogatz_default_parms()

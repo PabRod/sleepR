@@ -19,13 +19,19 @@ The flow (right hand side of the differential equation)
 \description{
 Generates the flow (right hand side of the differential equation) for the Strogatz's model
 }
-\details{
-Strogatz, S. H. (1987).
-Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
-Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
-}
 \examples{
 t <- 0
 y <- c(th1 = 0.1, th2 = 0.2)
 dy <- dStrogatz(t, y)
+}
+\references{
+Strogatz, S. H. (1987).
+Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
+Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
+}
+\seealso{
+\code{\link{strogatz}, \link{strogatz_default_parms}}
+}
+\author{
+Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 }

@@ -19,14 +19,20 @@ Results of the simulation, including times, states and asleep/awake status
 \description{
 Solves the Strogatz's model for the given times, initial condition and parameters
 }
-\details{
-Strogatz, S. H. (1987).
-Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
-Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
-}
 \examples{
 y0 <- c(th1 = 0.1, th2 = 0.05)
 nDays <- 30
 ts <- seq(0, nDays*24, length.out=nDays*24*10)
 ys <- strogatz(ts, y0)
+}
+\references{
+Strogatz, S. H. (1987).
+Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
+Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
+}
+\seealso{
+\code{\link{dStrogatz}, \link{strogatz_default_parms}}
+}
+\author{
+Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 }
