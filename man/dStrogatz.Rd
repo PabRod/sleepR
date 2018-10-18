@@ -20,9 +20,11 @@ The flow (right hand side of the differential equation)
 Generates the flow (right hand side of the differential equation) for the Strogatz's model
 }
 \examples{
+\dontrun{
 t <- 0
 y <- c(th1 = 0.1, th2 = 0.2)
 dy <- dStrogatz(t, y)
+}
 }
 \references{
 Strogatz, S. H. (1987).

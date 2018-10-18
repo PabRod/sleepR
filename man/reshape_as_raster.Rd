@@ -18,6 +18,7 @@ The asleep vector reshaped as a raster vector
 Reshape as raster vector
 }
 \examples{
+\dontrun{
 # Simulate a solution
 y0 <- c(th1 = 0.1, th2 = 0.05)
 nDays <- 60.2
@@ -25,6 +26,7 @@ ts <- seq(0, nDays*24, length.out=nDays*24*20)
 sol <- strogatz(ts, y0)
 # Get raster sleep vector
 asleep_raster <- reshape_as_raster(sol)
+}
 }
 \author{
 Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})

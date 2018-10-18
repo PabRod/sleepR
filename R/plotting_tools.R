@@ -39,11 +39,11 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #'
 #' @return The asleep vector reshaped as a raster vector
 #' @importFrom dplyr filter
-#' @export
 #'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 #'
 #' @examples
+#' \dontrun{
 #' # Simulate a solution
 #' y0 <- c(th1 = 0.1, th2 = 0.05)
 #' nDays <- 60.2
@@ -51,6 +51,7 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #' sol <- strogatz(ts, y0)
 #' # Get raster sleep vector
 #' asleep_raster <- reshape_as_raster(sol)
+#' }
 reshape_as_raster <- function(sol, dailySamples = 480) {
 
   # Use day as time unit

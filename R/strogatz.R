@@ -7,7 +7,6 @@
 #' @param parms Model's parameters (optional, see \code{\link{strogatz_default_parms}})
 #'
 #' @return The flow (right hand side of the differential equation)
-#' @export
 #'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 #'
@@ -19,9 +18,11 @@
 #' @seealso \code{\link{strogatz}, \link{strogatz_default_parms}}
 #'
 #' @examples
+#' \dontrun{
 #' t <- 0
 #' y <- c(th1 = 0.1, th2 = 0.2)
 #' dy <- dStrogatz(t, y)
+#' }
 dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 
   with(as.list(c(y, parms)), {
