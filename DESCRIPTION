@@ -3,7 +3,7 @@ Title: Sleep-wake Cycle Models
 Version: 0.0.0.9000
 Authors@R: person("Pablo", "Rodriguez-Sanchez", email = "pablo.rodriguez.sanchez@gmail.com", role = c("aut", "cre"))
 Description: This package contains several numerical realisations of classical sleep-wake cycle models.
-Depends: R (>= 3.5.1)
+Depends: R (>= 3.5.0)
 License: MIT
 Encoding: UTF-8
 LazyData: true

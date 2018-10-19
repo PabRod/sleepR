@@ -23,10 +23,10 @@ parms <- philrob_default_parms()
 \references{
 Phillips AJK, Robinson PA.
 A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
-J Biol Rhythms \link{Internet}. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 }
 \seealso{
-\code{\link{philrob}, \link{dphilrob}}
+\code{\link{philrob}, \link{dPhilrob}}
 }
 \author{
 Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
