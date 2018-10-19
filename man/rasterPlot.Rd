@@ -31,3 +31,6 @@ sol <- strogatz(ts, y0)
 # Create raster plot
 rasterPlot(sol)
 }
+\author{
+Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+}

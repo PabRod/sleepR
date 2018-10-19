@@ -86,3 +86,28 @@ test_that('Only V_m and H stable',
           }
 )
 
+test_that('Paper 2007',
+          {
+            # Simulate the situation in the paper
+            nDays <- 8
+            ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
+            y0 <- c(Vv = -12.6404, Vm = 0.8997, H = 12.5731) # This point is already close to the attractor
+            sol <- philrob(ts, y0)
+
+            # Extract relevant results
+            Vv <- sol$Vv
+            Vm <- sol$Vv
+            H <- sol$H
+
+            # Approximate limits taken from Figure 5
+            expect_true((min(Vv) > -13) & (min(Vv) < -10))
+            expect_true((max(Vv) > 1) & (max(Vv) < 2))
+            expect_true((min(Vm) > -13) & (min(Vm) < -10))
+            expect_true((max(Vm) > 0) & (max(Vm) < 3))
+            expect_true((min(H) > 7) & (min(H) < 9))
+            expect_true((max(H) > 14) & (max(H) < 15))
+
+          }
+
+)
+

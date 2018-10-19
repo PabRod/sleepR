@@ -25,7 +25,7 @@ Solves the Phillip and Robinson's model for the given times, initial condition a
 y0 <- c(Vv = -13, Vm = 1, H = 10)
 nDays <- 30
 ts <- seq(0, nDays*24, length.out = nDays*24*20)
-ys <- philrob(ts, y0)
+sol <- philrob(ts, y0)
 }
 \references{
 Phillips AJK, Robinson PA.

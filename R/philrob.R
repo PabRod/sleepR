@@ -75,7 +75,7 @@ dPhilrob <- function(time, y, parms = philrob_default_parms()) {
 #' y0 <- c(Vv = -13, Vm = 1, H = 10)
 #' nDays <- 30
 #' ts <- seq(0, nDays*24, length.out = nDays*24*20)
-#' ys <- philrob(ts, y0)
+#' sol <- philrob(ts, y0)
 philrob <- function(ts, y0, parms = philrob_default_parms(), method = 'lsoda') {
 
   # Solve
