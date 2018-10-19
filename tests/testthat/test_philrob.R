@@ -107,6 +107,11 @@ test_that('Paper 2007',
             expect_true((min(H) > 7) & (min(H) < 9))
             expect_true((max(H) > 14) & (max(H) < 15))
 
+            # Check the asleep status
+            expect_true(class(sol$asleep) == 'logical')
+            expect_false(all(sol$asleep[1:3])) # This simulation begins with an awake subject
+            expect_true((mean(sol$asleep) > 0.3) & (mean(sol$asleep) < 0.4)) # Average sleeping time should be around 0.3
+
           }
 
 )

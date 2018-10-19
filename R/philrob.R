@@ -89,8 +89,12 @@ philrob <- function(ts, y0, parms = philrob_default_parms(), method = 'lsoda') {
   sol <- as.data.frame(sol)
 
   # Implement sleep-awake criterion
-  #sol <- mutate(sol, th1 = th1%%1, th2 = th2%%1)
-  #sol <- mutate(sol, asleep = (th2 >= 0.0) & (th2 <= 1/3))
+  for (i in 1:length(ts)-1) {
+    dH <- sol$H[i+1] - sol$H[i]
+    sol$asleep[i] <- (dH < 0)
+  }
+
+  return(sol)
 
 }
 
