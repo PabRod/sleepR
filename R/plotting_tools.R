@@ -44,7 +44,9 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #' @param sol Solution of a philrob simulation
 #'
 #' @return The time series
+#'
 #' @export
+#' @importFrom graphics plot lines axis
 #'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 #'

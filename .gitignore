@@ -1,4 +1,11 @@
+# R defaults
 .Rproj.user
 .Rhistory
 .RData
+
+# Custom scripts
+scripts
+
+# Documents
 inst/doc
+*.pdf

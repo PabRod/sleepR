@@ -73,7 +73,7 @@ where:
 
 ### Raster / somnogram plot
 
-```{r Plotting, include = TRUE, fig.show='hold'}
+```{r Plotting, include = TRUE, warning = FALSE, fig.show='hold'}
 plot(sol$time/24, sol$asleep, type = 'line', xlab = 'Time (d)', ylab = 'Asleep')
 rasterPlot(sol)
 ```
