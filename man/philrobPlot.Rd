@@ -7,7 +7,7 @@
 philrobPlot(sol)
 }
 \arguments{
-\item{sol}{}
+\item{sol}{Solution of a philrob simulation}
 }
 \value{
 The time series
@@ -22,7 +22,7 @@ nDays <- 30
 ts <- seq(0, nDays*24, length.out = nDays*24*20)
 sol <- philrob(ts, y0)
 # Plot it
-plotPhilrob(sol)
+philrobPlot(sol)
 }
 \references{
 Phillips AJK, Robinson PA.

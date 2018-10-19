@@ -39,7 +39,7 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 
 #' Plots the time series generated with philrob
 #'
-#' @param sol
+#' @param sol Solution of a philrob simulation
 #'
 #' @return The time series
 #' @export
@@ -60,7 +60,7 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #' ts <- seq(0, nDays*24, length.out = nDays*24*20)
 #' sol <- philrob(ts, y0)
 #' # Plot it
-#' plotPhilrob(sol)
+#' philrobPlot(sol)
 philrobPlot <- function(sol) {
   states <- subset(sol, select = c('Vv', 'Vm', 'H'))
 
