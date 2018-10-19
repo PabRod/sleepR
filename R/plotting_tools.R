@@ -11,6 +11,8 @@
 #' @importFrom graphics image
 #' @importFrom utils tail
 #'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
 #' @examples
 #' # Simulate a solution
 #' y0 <- c(th1 = 0.1, th2 = 0.05)
@@ -33,6 +35,38 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 
   # And plot it
   image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(awakeCol, asleepCol))
+}
+
+#' Plots the time series generated with philrob
+#'
+#' @param sol
+#'
+#' @return The time series
+#' @export
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Phillips AJK, Robinson PA.
+#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#'
+#' @seealso \code{\link{philrob}}
+#'
+#' @examples
+#' # Generate a solution
+#' y0 <- c(Vv = -13, Vm = 1, H = 10)
+#' nDays <- 30
+#' ts <- seq(0, nDays*24, length.out = nDays*24*20)
+#' sol <- philrob(ts, y0)
+#' # Plot it
+#' plotPhilrob(sol)
+philrobPlot <- function(sol) {
+  states <- subset(sol, select = c('Vv', 'Vm', 'H'))
+
+  plot(sol$time, sol$Vm, type = 'l', col = 'blue', ylim = c(min(states), max(states)))
+  lines(sol$time, sol$Vv, col = 'red')
+  lines(sol$time, sol$H, col = 'yellow')
 }
 
 #' Reshape as raster vector
