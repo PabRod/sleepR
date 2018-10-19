@@ -34,7 +34,9 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
   ys <- seq(0, nDays-1)
 
   # And plot it
-  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(awakeCol, asleepCol))
+  image(x = xs, y = ys, z = t(asleepRaster), xlab = 'h', ylab = 'd', col = c(awakeCol, asleepCol), axes = FALSE)
+  axis(1, at = c(0, 6, 12, 18, 24, 30, 36, 42, 48), labels = c(0, 6, 12, 18, 24, 6, 12, 18, 24))
+  axis(2, at = seq(0, nDays))
 }
 
 #' Plots the time series generated with philrob
