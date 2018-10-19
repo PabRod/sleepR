@@ -4,7 +4,7 @@
 \alias{philrob}
 \title{Solve Phillip and Robinson's model}
 \usage{
-philrob(ts, y0, parms = philrob_default_parms())
+philrob(ts, y0, parms = philrob_default_parms(), method = "lsoda")
 }
 \arguments{
 \item{ts}{Vector of times (in h)}
@@ -12,6 +12,8 @@ philrob(ts, y0, parms = philrob_default_parms())
 \item{y0}{Initial condition}
 
 \item{parms}{Model parameters (optional, see \code{\link{philrob_default_parms}})}
+
+\item{method}{Integration method (optional, by default 'lsoda')}
 }
 \value{
 Results of the simulation, including times, states and asleep/awake status

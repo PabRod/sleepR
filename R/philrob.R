@@ -39,9 +39,9 @@ dPhilrob <- function(time, y, parms = philrob_default_parms()) {
     }
 
     # Dynamics
-    dVv <- (            -vvm*S(Vm) + vvh*H - vvc*C(time) - Vv)/tauv
-    dVm <- (-vmv*S(Vv)                     + vmaSa       - Vm)/taum
-    dH <-  (              mu*S(Vm)                       -  H)/Xi
+    dVv <- (            -vvm*S(Vm) + vvh*H - vvc*C(time) - Vv)/tauv # Ventro-lateral preoptic area activity
+    dVm <- (-vmv*S(Vv)                     + vmaSa       - Vm)/taum # Mono-aminergic group activity
+    dH <-  (              mu*S(Vm)                       -  H)/Xi # Homeostatic pressure
 
     return(list(c(dVv, dVm, dH)))
   })
@@ -55,6 +55,7 @@ dPhilrob <- function(time, y, parms = philrob_default_parms()) {
 #' @param ts Vector of times (in h)
 #' @param y0 Initial condition
 #' @param parms Model parameters (optional, see \code{\link{philrob_default_parms}})
+#' @param method Integration method (optional, by default 'lsoda')
 #'
 #' @return Results of the simulation, including times, states and asleep/awake status
 #'
@@ -75,13 +76,14 @@ dPhilrob <- function(time, y, parms = philrob_default_parms()) {
 #' nDays <- 30
 #' ts <- seq(0, nDays*24, length.out = nDays*24*20)
 #' ys <- philrob(ts, y0)
-philrob <- function(ts, y0, parms = philrob_default_parms()) {
+philrob <- function(ts, y0, parms = philrob_default_parms(), method = 'lsoda') {
 
   # Solve
   sol <- ode(y = y0,
              func = dPhilrob,
              times = ts,
-             parms = parms)
+             parms = parms,
+             method = method)
 
   # Transform into data frame
   sol <- as.data.frame(sol)
