@@ -66,11 +66,14 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
 #' # Plot it
 #' philrobPlot(sol)
 philrobPlot <- function(sol) {
-  states <- subset(sol, select = c('Vv', 'Vm', 'H'))
+  ts_days <- sol$time / 24 # Use days
+  states <- subset(sol, select = c('Vv', 'Vm', 'H')) # Used to define limits
 
-  plot(sol$time, sol$Vm, type = 'l', col = 'blue', ylim = c(min(states), max(states)))
-  lines(sol$time, sol$Vv, col = 'red')
-  lines(sol$time, sol$H, col = 'yellow')
+  plot(ts_days, sol$Vm, type = 'l', col = 'blue',
+       ylim = c(min(states), max(states)),
+       xlab = 'time (d)', ylab = 'states')
+  lines(ts_days, sol$Vv, col = 'red')
+  lines(ts_days, sol$H, col = 'green4')
 }
 
 #' Reshape as raster vector
