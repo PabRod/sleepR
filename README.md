@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/PabRod/sleepR.svg?branch=master)](https://travis-ci.org/PabRod/sleepR)
-[![codecov](https://codecov.io/gh/PabRod/sleepR/branch/master/graph/badge.svg)](https://codecov.io/gh/PabRod/sleepR)
+[![Build Status](https://travis-ci.com/PabRod/sleepR.svg?token=Fq3EdNLAbvvXT6TczBaZ&branch=master)](https://travis-ci.com/PabRod/sleepR)
+[![codecov](https://codecov.io/gh/PabRod/sleepR/branch/master/graph/badge.svg?token=tVmhqzqNuM)](https://codecov.io/gh/PabRod/sleepR)
 
 # SleepR
 
