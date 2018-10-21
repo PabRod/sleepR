@@ -5,6 +5,7 @@
 
 # Custom scripts
 scripts
+
 # Documents
 inst/doc
 *.pdf

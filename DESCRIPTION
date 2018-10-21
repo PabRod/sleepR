@@ -12,7 +12,8 @@ Suggests: testthat,
     rmarkdown,
     graphics,
     stats,
-    utils
+    utils,
+    png
 Imports: deSolve, 
     dplyr
 RoxygenNote: 6.1.0
