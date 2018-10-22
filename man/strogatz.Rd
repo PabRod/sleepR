@@ -4,7 +4,7 @@
 \alias{strogatz}
 \title{Solve Strogatz's model}
 \usage{
-strogatz(ts, y0, parms = strogatz_default_parms())
+strogatz(ts, y0, parms = strogatz_default_parms(), ...)
 }
 \arguments{
 \item{ts}{Vector of times (in h)}
@@ -12,6 +12,8 @@ strogatz(ts, y0, parms = strogatz_default_parms())
 \item{y0}{Initial condition}
 
 \item{parms}{Model parameters (optional, see \code{\link{strogatz_default_parms}})}
+
+\item{...}{Integration arguments for \code{\link{ode}} solver (optional)}
 }
 \value{
 Results of the simulation, including times, states and asleep/awake status
@@ -31,7 +33,7 @@ Human sleep and circadian rhythms: a simple model based on two coupled oscillato
 Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
 }
 \seealso{
-\code{\link{dStrogatz}, \link{strogatz_default_parms}}
+\code{\link{dStrogatz}, \link{strogatz_default_parms}, \link{ode}}
 }
 \author{
 Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})

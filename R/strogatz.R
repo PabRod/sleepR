@@ -43,6 +43,7 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #' @param ts Vector of times (in h)
 #' @param y0 Initial condition
 #' @param parms Model parameters (optional, see \code{\link{strogatz_default_parms}})
+#' @param ... Additional arguments passed to the \code{\link{ode}} integrator
 #'
 #' @return Results of the simulation, including times, states and asleep/awake status
 #'
@@ -57,20 +58,21 @@ dStrogatz <- function(time, y, parms = strogatz_default_parms()) {
 #' Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
 #' Journal of Mathematical Biology, 25(3), 327–347. \url{http://doi.org/10.1007/BF00276440}
 #'
-#' @seealso \code{\link{dStrogatz}, \link{strogatz_default_parms}}
+#' @seealso \code{\link{dStrogatz}, \link{strogatz_default_parms}, \link{ode}}
 #'
 #' @examples
 #' y0 <- c(th1 = 0.1, th2 = 0.05)
 #' nDays <- 30
 #' ts <- seq(0, nDays*24, length.out=nDays*24*10)
 #' ys <- strogatz(ts, y0)
-strogatz <- function(ts, y0, parms = strogatz_default_parms()) {
+strogatz <- function(ts, y0, parms = strogatz_default_parms(), ...) {
 
   # Solve
   sol <- ode(y = y0,
             func = dStrogatz,
             times = ts,
-            parms = parms)
+            parms = parms,
+            ...)
 
   # Transform into data frame
   sol <- as.data.frame(sol)

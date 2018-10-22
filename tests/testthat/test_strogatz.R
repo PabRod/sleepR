@@ -45,7 +45,7 @@ test_that('Entrained',
             parms['w2'] <- 0.95/24 # Non default frequency (easier to entrain)
 
             # Problem solving
-            sol <- strogatz(ts, y0, parms = parms)
+            sol <- strogatz(ts, y0, parms = parms, method = 'lsode')
 
             # Measured difference
             psi <- sol$th1 - sol$th2

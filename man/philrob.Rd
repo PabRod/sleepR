@@ -4,7 +4,7 @@
 \alias{philrob}
 \title{Solve Phillip and Robinson's model}
 \usage{
-philrob(ts, y0, parms = philrob_default_parms(), method = "lsoda")
+philrob(ts, y0, parms = philrob_default_parms(), ...)
 }
 \arguments{
 \item{ts}{Vector of times (in h)}
@@ -13,7 +13,7 @@ philrob(ts, y0, parms = philrob_default_parms(), method = "lsoda")
 
 \item{parms}{Model parameters (optional, see \code{\link{philrob_default_parms}})}
 
-\item{method}{Integration method (optional, by default 'lsoda')}
+\item{...}{Integration arguments for \code{\link{ode}} solver (optional)}
 }
 \value{
 Results of the simulation, including times, states and asleep/awake status
@@ -33,7 +33,7 @@ A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brain
 J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 }
 \seealso{
-\code{\link{dPhilrob}, \link{philrob_default_parms}}
+\code{\link{dPhilrob}, \link{philrob_default_parms}, \link{ode}}
 }
 \author{
 Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})

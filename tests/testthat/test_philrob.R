@@ -92,7 +92,7 @@ test_that('Paper 2007',
             nDays <- 8
             ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
             y0 <- c(Vv = -12.6404, Vm = 0.8997, H = 12.5731) # This point is already close to the attractor
-            sol <- philrob(ts, y0)
+            sol <- philrob(ts, y0, method = 'lsode')
 
             # Extract relevant results
             Vv <- sol$Vv
