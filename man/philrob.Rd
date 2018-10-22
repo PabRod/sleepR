@@ -13,7 +13,7 @@ philrob(ts, y0, parms = philrob_default_parms(), ...)
 
 \item{parms}{Model parameters (optional, see \code{\link{philrob_default_parms}})}
 
-\item{...}{Integration arguments for \code{\link{ode}} solver (optional)}
+\item{...}{Additional arguments passed to the \code{\link{ode}} integrator}
 }
 \value{
 Results of the simulation, including times, states and asleep/awake status
