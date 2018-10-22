@@ -4,12 +4,14 @@
 \alias{dKronauer}
 \title{Kronauer's 1990 model flow}
 \usage{
-dKronauer(time, y, parms = kronauer_default_parms())
+dKronauer(time, y, I, parms = kronauer_default_parms())
 }
 \arguments{
 \item{time}{The time (in h)}
 
 \item{y}{The state}
+
+\item{I}{Illumination function (in lux)}
 
 \item{parms}{Model's parameters (optional, see \code{\link{kronauer_default_parms}})}
 }

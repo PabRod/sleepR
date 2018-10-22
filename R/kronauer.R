@@ -4,6 +4,7 @@
 #'
 #' @param time The time (in h)
 #' @param y  The state
+#' @param I Illumination function (in lux)
 #' @param parms Model's parameters (optional, see \code{\link{kronauer_default_parms}})
 #'
 #' @return The flow (right hand side of the differential equation)
@@ -23,19 +24,19 @@
 #' y <- c(x = 1, xc = 1)
 #' dy <- dKronauer(t, y)
 #' }
-dKronauer <- function(time, y, parms = kronauer_default_parms()) {
+dKronauer <- function(time, y, I, parms = kronauer_default_parms()) {
   with(as.list(c(y, parms)), {
 
     # Auxiliary functions
 
-    ## Sigmoid growth
-    B <- function(V) {
-      1
+    ## Drive of light
+    B <- function(x, I) {
+      (1 - m*x)*c*I^n
     }
 
     # Dynamics
-    dx <-  (pi/12)*(xc + mu*(x - 4/3*x^3)) # Temperature
-    dxc <- (pi/12)*(-(24/taux)^2*x) # Auxiliary
+    dx <-  (pi/12)*(xc + mu*(x - 4/3*x^3) + B(x, I(time))) # Temperature
+    dxc <- (pi/12)*(q*xc*B(x, I(time)) -(24/taux)^2*x) # Auxiliary
 
     return(list(c(dx, dxc)))
   })
@@ -109,6 +110,10 @@ kronauer <- function(ts, y0, parms = kronauer_default_parms(), ...) {
 kronauer_default_parms <- function() {
 
   parms = c(mu = 0.13,
-            taux = 24.2) # h
+            taux = 24.2, # h
+            q = 1/3,
+            m = 1/3,
+            c = 0.018, # lux^-1/n
+            n = 1/3)
 
 }
