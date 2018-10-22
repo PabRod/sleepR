@@ -1,0 +1,464 @@
+---
+title: "Phillip and Robinson's model"
+author: "Pablo Rodríguez-Sánchez"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+  html_vignette: default
+header-includes: 
+  - \usepackage{tikz}
+  - \usepackage{pgfplots}
+  - \usetikzlibrary{shapes,arrows}
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(sleepR)
+```
+
+# Model
+The function `philrob` simulates Phillips and Robinson's model for sleep-wake dynamics.
+
+## Dynamics
+The dynamics of the Phillips and Robinson model are given by the following system of ordinary differential equations:
+
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0 & -\nu_{vm} & \nu_{vh} \\
+-\nu_{mv} & 0 & 0 \\
+0 & \mu & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m) \\
+H
+\end{array}
+\right]
++
+\left[
+\begin{array}{c}
+-\nu_{vc} C(t) \\
+\nu_{ma} S(V_{a0}) \\
+0
+\end{array}
+\right]$$
+
+where $S(V)$ is the saturation function:
+
+$$S(V) = \frac{Q_{max}}{1 + e^{-\frac{V-\theta}{\sigma}}}$$
+
+and the external forcing is given by $C(t)$:
+
+$$C(t) = \frac{1}{2} \left( 1 + cos(\omega t + \alpha) \right)$$
+
+## State variables
+
+The state variables are defined as:
+
+| State variable | Physiological interpetation | Informal interpretation |
+|:---------------|:----------------------------|:------------------------|
+| $V_v$          | Activity of the VLPO        | Stay asleep system      |
+| $V_m$          | Activity of the MA          | Stay awake system       |
+| $H$            | Homeostatic pressure        | Somnogen level          |
+
+## Diagram
+
+\begin{center}
+\begin{tikzpicture}[node distance = 2cm, auto]
+
+    % Definitions
+    \tikzstyle{state} = [rectangle,draw,fill=blue!20,text width=5em,text centered,rounded corners,minimum height=4em]
+    \tikzstyle{line} = [draw, -latex']
+    \tikzstyle{source} = [draw, ellipse,fill=red!20, node distance=3cm,minimum height=2em]
+    
+    % Place nodes
+    % States
+    \node [state] (Vv) {$V_v$};
+    \node [state, below of=Vv] (Vm) {$V_m$};
+    \node [state, below of=Vm] (H) {$H$};
+    
+    % Sources
+    \node [source, right of=Vv] (C) {$C(t)$};
+    \node [source, right of=Vm] (A) {$A$};
+    
+    % Draw edges
+    % Sources
+    \path [blue, line] (C) -> node{$\nu_{vc}$} (Vv);
+    \path [line] (A) -> node{$\nu_{ma}$} (Vm);
+    
+    % Coupling
+    \path [line] (Vm) -> node{$\mu$} (H);
+    \draw[red, ->] (Vv) -- node[midway, right] {$\nu_{mv}$} (Vm);
+    \draw[red, ->] (Vm) -- node[midway, left] {$\nu_{vm}$} (Vv);
+    \draw[->] (H.west) .. controls +(left:20mm) and +(left:20mm) .. node{$\nu_{vh}$} (Vv.west);
+    
+    % Decay
+    \draw[red, ->] (Vv.north) .. controls +(up:10mm) and +(up:10mm) .. (Vv.north west);
+    \draw[red, ->] (Vm.north west) .. controls +(left:10mm) and +(left:10mm) .. (Vm.south west);
+    \draw[red, ->] (H.south) .. controls +(down:10mm) and +(down:10mm) .. (H.south west);
+
+\end{tikzpicture}
+\end{center}
+
+Schematic summary of the dynamics. The blue nodes represent the system's states ($V_v$ the activity of the ventrolateral preoptic area, $V_m$ the activity of the mono aminergic group and $H$ the homeostatic pressure). The red nodes represent the external sources ($C(t)$, the astronomical light/dark forcing, and $A$, the acetylcholine group constant influence). The positive effects are coded as black arrows. Negative ones as red arrows. Blue arrows represent oscillating effects.
+
+## Reference
+
+Phillips AJK, Robinson PA.
+A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+
+\newpage
+
+# Examples of usage
+
+## Getting the time series
+
+With default parameters:
+
+```{r Problem posing with default pars, include = TRUE}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+# Simulate
+sol <- philrob(ts, y0)
+
+```
+
+With custom parameters:
+
+```{r Problem posing with overriden pars, include = TRUE}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 3
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms() # Load default parameters...
+parms['vvc'] <- 6 # .. and modify one
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+```
+
+The output looks like:
+
+```{r Display output, echo=FALSE, results='asis'}
+knitr::kable(head(sol, 5))
+```
+
+where:
+
+- `time`: the time (in h),
+- `Vv`: activity of the ventrolateral preoptic area (in mV)
+- `Vm`: activity of the monoaminergic group (in mV)
+- `H`: homeostatic pressure / somnogen
+- `asleep`: the asleep/awake status (`TRUE` if asleep, `FALSE` if awake)
+
+## Plotting results
+
+### Raster / somnogram plot
+
+```{r Plotting, include = TRUE, fig.show='hold'}
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+\newpage
+
+# Results
+
+In this section, we analyze the effect of removing (equating to zero) one by one the main elements in the defining equation of the model. We'll refer to them as:
+
+- `Coupling`: the elements in the square matrix.
+- `Source`: the constant term $\nu_{ma} S(V_a)$.
+- `Forcing`: the time dependent term $-\nu_{vc} C(t)$.
+
+## Case 000
+
+### Settings
+- `Coupling`: no
+- `Source`: no
+- `Forcing`: no
+
+### Results
+All states decay to zero.
+
+```{r 000, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Coupling
+parms['vmv'] <- 0
+parms['vvm'] <- 0
+parms['vvh'] <- 0
+parms['mu'] <- 0
+
+# Source
+parms['vmaSa'] <- 0
+
+# Forcing
+parms['vvc'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+## Case 001
+
+### Settings
+- `Coupling`: no
+- `Source`: no
+- `Forcing`: yes
+
+### Results
+All states decay to zero, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
+
+```{r 001, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Coupling
+parms['vmv'] <- 0
+parms['vvm'] <- 0
+parms['vvh'] <- 0
+parms['mu'] <- 0
+
+# Source
+parms['vmaSa'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
+## Case 010
+
+### Settings
+- `Coupling`: no
+- `Source`: yes
+- `Forcing`: no
+
+### Results
+All states decay to constant values. $V_v$ and $H$ decay to zero, and $V_m$ to a non-zero constant value.
+
+```{r 010, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Coupling
+parms['vmv'] <- 0
+parms['vvm'] <- 0
+parms['vvh'] <- 0
+parms['mu'] <- 0
+
+# Forcing
+parms['vvc'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
+## Case 011
+
+### Settings
+- `Coupling`: no
+- `Source`: yes
+- `Forcing`: yes
+
+### Results
+All states decay to constant values, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
+
+```{r 011, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Coupling
+parms['vmv'] <- 0
+parms['vvm'] <- 0
+parms['vvh'] <- 0
+parms['mu'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
+## Case 100
+
+### Settings
+- `Coupling`: yes
+- `Source`: no
+- `Forcing`: no
+
+### Results
+All states decay to constant values. 
+
+```{r 100, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Source
+parms['vmaSa'] <- 0
+
+# Forcing
+parms['vvc'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
+## Case 101
+
+### Settings
+- `Coupling`: yes
+- `Source`: no
+- `Forcing`: yes
+
+### Results
+A very reasonable behaviour arises, despite the absence of the source term.
+
+```{r 101, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Source
+parms['vmaSa'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+## Case 110
+
+### Settings
+- `Coupling`: yes
+- `Source`: yes
+- `Forcing`: no
+
+### Results
+A periodic behavior appears despite the absence of the forcing term. Like this, the system is autonomous. The period of the oscillations is around 8 hours.
+
+```{r 110, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Forcing
+parms['vvc'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+## Case 111
+
+### Settings
+- `Coupling`: yes
+- `Source`: yes
+- `Forcing`: yes
+
+### Results
+This is the result described in the abovementioned paper.
+
+```{r 111, include = TRUE, echo = FALSE, fig.show='hold'}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
