@@ -70,3 +70,26 @@ test_that('Flow with light',
 
           }
 )
+
+test_that('Basic test',
+          {
+            ## Problem setting
+            y0 <- c(x = 1, xc = 0) # Initial conditions
+
+            nDays <- 12
+            ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+            ## Simple illumination condition
+            I <- function(t) { (t%%24 > 8)*10000 + # Daylight after 8:00 AM
+                !(t%%24 > 8)*150} # Night at 00:00 AM
+
+            ## Simulate
+            sol <- kronauer(ts, y0, I)
+
+            expected_colnames <- c('time', 'x', 'xc')
+            expected_class <- 'data.frame'
+
+            expect_true(all(colnames(sol) == expected_colnames))
+            expect_true(class(sol) == expected_class)
+          }
+)
