@@ -3,6 +3,9 @@
 
 # SleepR
 
+## Author
+Pablo Rodríguez-Sánchez [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-2855-940X)
+
 ## References
 - Strogatz, S. H. (1987). Human sleep and circadian rhythms: a simple model based on two coupled oscillators. Journal of Mathematical Biology, 25(3), 327–347. http://doi.org/10.1007/BF00276440
 - Jewett ME, Kronauer RE. (1998). Refinement of Limit Cycle Oscillator Model of the Effects of Light on the Human Circadian Pacemaker. J Theor Biol. 1998 Jun 21;192(4):455–65. https://www.sciencedirect.com/science/article/pii/S0022519398906671
