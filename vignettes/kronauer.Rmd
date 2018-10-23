@@ -1,0 +1,57 @@
+---
+title: "Kronauer's model"
+author: "Pablo Rodríguez-Sánchez"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  
+  library(sleepR)
+)
+```
+
+# Examples of usage
+
+## Getting the time series
+
+With default parameters:
+
+```{r Problem posing with default pars, include = TRUE}
+## Problem setting
+y0 <- c(x = 1, xc = 0) # Initial conditions
+
+nDays <- 7
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+I <- function(t) {10000 + 9000 * cos(2*pi/24*t)} # Illumination function (in lux)
+
+```
+
+```{r Simulate, include = TRUE}
+# Simulate
+sol <- kronauer(ts, y0, I)
+```
+
+```{r Plot illumination, warning = FALSE, echo = FALSE, fig.show = 'hold'}
+plot(sol$time, I(sol$time), type = 'line', col = 'orange')
+
+```
+
+```{r Plot time series, warning = FALSE, echo = FALSE, fig.show = 'hold'}
+ts_days <- sol$time / 24
+
+plot(ts_days, sol$x, type = 'line', col = 'red')
+lines(ts_days, sol$xc)
+
+amplitude <- sqrt(sol$x^2 + sol$xc^2)
+plot(ts_days, amplitude, type = 'line')
+
+```
