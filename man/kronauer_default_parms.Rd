@@ -10,7 +10,7 @@ kronauer_default_parms()
 The default parameters for Kronauer's 1990 model
 }
 \description{
-Loads the parameters used in Kronauer's 1990 model
+Loads the parameters used in Kronauer's 1990 model (equations 2 and 3 in the reference)
 }
 \examples{
 parms <- kronauer_default_parms()

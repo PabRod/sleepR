@@ -19,7 +19,7 @@ dKronauer(time, y, I, parms = kronauer_default_parms())
 The flow (right hand side of the differential equation)
 }
 \description{
-Generates the flow (right hand side of the differential equation) for the Kronauer's 1990 model
+Generates the flow (right hand side of the differential equation) for the Kronauer's 1990 model (equations 2 and 3 in the reference)
 }
 \examples{
 \dontrun{

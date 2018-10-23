@@ -19,13 +19,14 @@ kronauer(ts, y0, parms = kronauer_default_parms(), ...)
 Results of the simulation, including times and states
 }
 \description{
-Solves the Kronauer's 1990 model for the given times, initial condition and parameters
+Solves the Kronauer's 1990 model (equations 2 and 3 in the reference) for the given times, initial condition and parameters
 }
 \examples{
 y0 <- c(x = 1, xc = 0)
 nDays <- 5
 ts <- seq(0, nDays*24, length.out = nDays*24*20)
-sol <- kronauer(ts, y0)
+I <- function(t) { 9500 + 0*t }
+sol <- kronauer(ts, y0, I)
 }
 \references{
 Jewett ME, Kronauer RE.

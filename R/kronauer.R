@@ -1,6 +1,6 @@
 #' Kronauer's 1990 model flow
 #'
-#' Generates the flow (right hand side of the differential equation) for the Kronauer's 1990 model
+#' Generates the flow (right hand side of the differential equation) for the Kronauer's 1990 model (equations 2 and 3 in the reference)
 #'
 #' @param time The time (in h)
 #' @param y  The state
@@ -44,7 +44,7 @@ dKronauer <- function(time, y, I, parms = kronauer_default_parms()) {
 
 #' Solve Kronauer's 1990 model
 #'
-#' Solves the Kronauer's 1990 model for the given times, initial condition and parameters
+#' Solves the Kronauer's 1990 model (equations 2 and 3 in the reference) for the given times, initial condition and parameters
 #'
 #' @param ts Vector of times (in h)
 #' @param y0 Initial condition
@@ -69,7 +69,8 @@ dKronauer <- function(time, y, I, parms = kronauer_default_parms()) {
 #' y0 <- c(x = 1, xc = 0)
 #' nDays <- 5
 #' ts <- seq(0, nDays*24, length.out = nDays*24*20)
-#' sol <- kronauer(ts, y0)
+#' I <- function(t) { 9500 + 0*t }
+#' sol <- kronauer(ts, y0, I)
 kronauer <- function(ts, y0, parms = kronauer_default_parms(), ...) {
 
   # Solve
@@ -90,7 +91,7 @@ kronauer <- function(ts, y0, parms = kronauer_default_parms(), ...) {
 
 #' Default parameters of Kronauer's 1990 model
 #'
-#' Loads the parameters used in Kronauer's 1990 model
+#' Loads the parameters used in Kronauer's 1990 model (equations 2 and 3 in the reference)
 #'
 #' @return The default parameters for Kronauer's 1990 model
 #'
