@@ -35,8 +35,8 @@ dKronauer <- function(time, y, I, parms = kronauer_default_parms()) {
     }
 
     # Dynamics
-    dx <-  (pi/12)*(xc + mu*(x - 4/3*x^3) + B(x, I(time))) # Temperature
-    dxc <- (pi/12)*(q*xc*B(x, I(time)) -(24/taux)^2*x) # Auxiliary
+    dx <-  (pi/12)*(xc + mu*(x - 4/3*x^3) + B(x, I(time))) # h^-1
+    dxc <- (pi/12)*(q*xc*B(x, I(time)) -(24/taux)^2*x) # h^-1
 
     return(list(c(dx, dxc)))
   })
