@@ -7,9 +7,11 @@ test_that('Parameters',
 
             # Check
             class_expected <- 'numeric'
-            names_expected <- c('Qmax', 'theta', 'sigma', 'vmaSa', 'vvm', 'vmv',
-                                'vvc', 'vvh', 'Xi', 'mu', 'taum', 'tauv', 'w',
-                                'D', 'Da', 'alpha')
+            names_expected <- c('Qmax', 'theta', 'sigma',
+                                'vmaSa', 'vvm', 'vmv',
+                                'vvc', 'vvh', 'Xi',
+                                'mu', 'taum', 'tauv',
+                                'w', 'alpha')
 
             expect_true(class(parms) == class_expected)
             expect_true(length(parms) == length(names_expected))

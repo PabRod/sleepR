@@ -137,8 +137,6 @@ philrob_default_parms <- function() {
             taum = 10/3600, # h
             tauv = 10/3600, # h
             w = 2*pi/T, # h^-1
-            D = 0.77, # mV
-            Da = 0.42, # mV
             alpha = 0.0) # rad
 
 }
