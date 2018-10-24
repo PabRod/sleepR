@@ -11,7 +11,7 @@ dPhilrob_simplified(time, y, D, parms = philrob_default_parms())
 
 \item{y}{The state}
 
-\item{D}{The external drive}
+\item{D}{The external drive function (in h)}
 
 \item{parms}{Model's parameters (optional, see \code{\link{philrob_default_parms}})}
 }
@@ -19,7 +19,8 @@ dPhilrob_simplified(time, y, D, parms = philrob_default_parms())
 The flow (right hand side of the differential equation)
 }
 \description{
-Generates the flow (right hand side of the differential equation) for the Phillips and Robinson's model
+Generates the flow (right hand side of the differential equation) for the Phillips and Robinson's model. The external drive
+has to be provided as a function of time (in h)
 }
 \examples{
 \dontrun{

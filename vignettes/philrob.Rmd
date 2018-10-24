@@ -462,3 +462,179 @@ sol <- philrob(ts, y0, parms)
 philrobPlot(sol)
 rasterPlot(sol)
 ```
+
+\newpage
+
+## Simplified case
+If the external drive $D(t)$ is introduced as an external input, the dynamics can be reduced to a two-dimensional model:
+
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m
+\end{array}
+\right]
+=
+\left[
+\begin{array}{cc}
+0 & -\nu_{vm} \\
+-\nu_{mv} & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m)
+\end{array}
+\right]
++
+\left[
+\begin{array}{c}
+D(t) \\
+\nu_{ma} S(V_{a0})
+\end{array}
+\right]$$
+
+If we consider the case of a constant drive, that is, $D(t) = D$, we find the following condition for the equilibrium solution (where we have used $A$ as a shorthand for  $\nu_{ma} S(V_{a0})$):
+
+$$
+\begin{array}{c}
+\widetilde V_v + \nu_{vm} S(\widetilde V_m) = D \\
+\widetilde V_m + \nu_{mv} S(\widetilde V_v) = A
+\end{array}
+$$
+
+If we plot both nullclines for $D = 0$ mV we find a single equilibrium:
+
+```{r, Define auxiliary functions, echo = FALSE}
+# Parameters
+parms <- philrob_default_parms()
+
+# Saturation
+S <- function(V) {
+  as.numeric(parms['Qmax']/(1 + exp((parms['theta']-V)/parms['sigma'])))
+}
+
+# Nullclines
+Vv_null <- function(Vm, D) { # dVv = 0
+  as.numeric(D - parms['vvm'] * S(Vm))
+} 
+
+Vm_null <- function(Vv) { # dVm = 0
+  as.numeric(parms['vmaSa'] - parms['vmv'] * S(Vv))
+}
+
+```
+
+```{r, Nullclines_simple, echo = FALSE, fig.show='hold'}
+# Parameter
+D <- 0
+
+# Plot
+roix <- c(-10, -2)
+roiy <- c(-4, 2)
+
+xs <- seq(roix[1], roix[2], length.out = 500)
+ys <- seq(roiy[1], roiy[2], length.out = 500)
+
+plot(x = xs, y = Vm_null(xs), 
+     type = 'l', xlim = roix, ylim = roiy, col = 'blue',
+     xlab = 'Vv (mV)', ylab = 'Vm (mV)')
+lines(y = ys, x = Vv_null(ys, D), 
+     type = 'l', xlim = roix, ylim = roiy, col = 'red')
+title('Nullclines')
+
+```
+
+If we plot the nullclines again for $D = 1$ mV, we see that there are three possible equilibria. There is a bifurcation around $D = 1$ mV:
+
+```{r, Nullclines_ass, echo = FALSE, fig.show='hold'}
+# Parameter
+D <- 1.00
+
+roix <- c(-6, 0)
+roiy <- c(-6, 0.5)
+
+xs <- seq(roix[1], roix[2], length.out = 500)
+ys <- seq(roiy[1], roiy[2], length.out = 500)
+
+plot(x = xs, y = Vm_null(xs), 
+     type = 'l', xlim = roix, ylim = roiy, col = 'blue',
+     xlab = 'Vv (mV)', ylab = 'Vm (mV)')
+lines(y = ys, x = Vv_null(ys, D), 
+     type = 'l', xlim = roix, ylim = roiy, col = 'red')
+title('Nullclines')
+
+```
+
+Simulating the solutions for $D(t) = 1 + 0.2 sin(\omega t)$:
+
+```{r, Hysteresis, echo = FALSE}
+## Problem setting
+y0 <- c(Vv = 0, Vm = -6) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+D <- function(t) {1.05 + 0.2 * sin(2*pi/24*t)}
+
+## Simulate timeseries
+sol <- philrob_simplified(ts, y0, D)
+
+limits <- c(min(c(sol$Vv, sol$Vm)),
+            max(c(sol$Vv, sol$Vm)))
+
+## Plot results
+ts_days <- sol$time / 24
+plot(ts_days, sol$Vm, 
+     type = 'l', ylim = limits, col = 'blue', xlab = 't (days)', ylab = 'states (mV)')
+lines(ts_days, sol$Vv, 
+     type = 'l', col = 'red')
+title('Timeseries')
+```
+
+Simulating a tooth shaped functional form for $D(t)$ (see figure), we obtain the following time series:
+
+```{r, Sawtooth, echo = FALSE}
+low <- 0.85
+high <- 1.15
+D_days <- function(t) {  low * (t < 1) +
+                    ((high - low) * (t - 1)/3 + low) * (t >=1) * (t < 4) +
+                    high * (t >=4) * (t < 5) +
+                    ((low - high) * (t - 5)/3 + high) * (t >=5) * (t < 8) +
+                    low * (t >= 8)
+}
+
+```
+
+
+```{r, Alternative_stable_states, echo = FALSE, fig.height = 7}
+## Problem setting
+y0 <- c(Vv = -6, Vm = 0) # Initial conditions
+
+nDays <- 9
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+D <- function (t) D_days(t / 24)
+
+## Simulate timeseries
+sol <- philrob_simplified(ts, y0, D)
+
+limits <- c(min(c(sol$Vv, sol$Vm)),
+            max(c(sol$Vv, sol$Vm)))
+
+## Plot results
+ts_days <- sol$time / 24
+
+par(mfrow = c(2, 1))
+
+plot(ts_days, D_days(ts_days), 
+     type = 'l', col = 'black', xlab = 't (days)', ylab = 'D(t)')
+
+plot(ts_days, sol$Vm, 
+     type = 'l', ylim = limits, col = 'blue', xlab = 't (days)', ylab = 'states (mV)')
+lines(ts_days, sol$Vv, 
+     type = 'l', col = 'red')
+
+title('Timeseries')
+```

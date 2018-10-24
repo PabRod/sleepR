@@ -21,7 +21,8 @@ philrob_simplified(ts, y0, drive, parms = philrob_default_parms(), ...)
 Results of the simulation, including times, states and asleep/awake status
 }
 \description{
-Solves the Phillip and Robinson's model for the given times, initial condition and parameters
+Solves the Phillip and Robinson's model for the given times, initial condition and parameters. The external drive
+has to be provided as a function of time (in h)
 }
 \examples{
 y0 <- c(Vv = -13, Vm = 1)
