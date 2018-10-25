@@ -70,6 +70,9 @@ and the external forcing is typically given by $C(t)$:
 $$C(t) = \frac{1}{2} \left( 1 + \cos(\omega t + \alpha) \right)$$
 
 ## Parameters
+
+The default values for the parameters are listed in the table below:
+
 | Symbol              |      Value       | Units              |
 |:--------------------|:----------------:|:-------------------|
 | $\tau_m$            |    $10/3600$     | $h$                |
@@ -222,6 +225,22 @@ In this section, we analyze the effect of removing (equating to zero) one by one
 - `Forcing`: no
 - `Source`: no
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0 \\
+0 \\
+0
+\end{array}
+\right]$$
+
 ### Results
 All states decay to zero.
 
@@ -261,6 +280,22 @@ rasterPlot(sol)
 - `Forcing`: no
 - `Source`: yes
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+0 \\
+\nu_{ma} S(V_{a0}) \\
+0
+\end{array}
+\right]$$
+
 ### Results
 All states decay to constant values. $V_v$ and $H$ decay to zero, and $V_m$ to a non-zero constant value.
 
@@ -298,6 +333,22 @@ rasterPlot(sol)
 - `Coupling`: no
 - `Forcing`: yes
 - `Source`: no
+
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+-\nu_{vc} C(t) \\
+0 \\
+0
+\end{array}
+\right]$$
 
 ### Results
 All states decay to zero, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
@@ -337,6 +388,22 @@ rasterPlot(sol)
 - `Forcing`: yes
 - `Source`: yes
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+-\nu_{vc} C(t) \\
+\nu_{ma} S(V_{a0}) \\
+0
+\end{array}
+\right]$$
+
 ### Results
 All states decay to constant values, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
 
@@ -371,6 +438,30 @@ rasterPlot(sol)
 - `Forcing`: no
 - `Source`: no
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0 & -\nu_{vm} & \nu_{vh} \\
+-\nu_{mv} & 0 & 0 \\
+0 & \mu & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m) \\
+H
+\end{array}
+\right]
+$$
+
 ### Results
 All states decay to constant values.
 
@@ -404,6 +495,37 @@ rasterPlot(sol)
 - `Forcing`: no
 - `Source`: yes
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0 & -\nu_{vm} & \nu_{vh} \\
+-\nu_{mv} & 0 & 0 \\
+0 & \mu & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m) \\
+H
+\end{array}
+\right]
++
+\left[
+\begin{array}{c}
+0 \\
+\nu_{ma} S(V_{a0}) \\
+0
+\end{array}
+\right]$$
+
 ### Results
 A periodic behavior appears despite the absence of the forcing term. Like this, the system is autonomous. The period of the oscillations is around 8 hours.
 
@@ -435,6 +557,37 @@ rasterPlot(sol)
 - `Forcing`: yes
 - `Source`: no
 
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0 & -\nu_{vm} & \nu_{vh} \\
+-\nu_{mv} & 0 & 0 \\
+0 & \mu & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m) \\
+H
+\end{array}
+\right]
++
+\left[
+\begin{array}{c}
+-\nu_{vc} C(t) \\
+0 \\
+0
+\end{array}
+\right]$$
+
 ### Results
 A very reasonable behaviour arises, despite the absence of the source term.
 
@@ -462,9 +615,41 @@ rasterPlot(sol)
 ## Case 111
 
 ### Settings
+
 - `Coupling`: yes
 - `Forcing`: yes
 - `Source`: yes
+
+$$\left[
+\begin{array}{c}
+\tau_v \dot V_v + V_v \\
+\tau_m \dot V_m + V_m \\
+\chi \dot H + H
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ccc}
+0 & -\nu_{vm} & \nu_{vh} \\
+-\nu_{mv} & 0 & 0 \\
+0 & \mu & 0
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+S(V_v) \\
+S(V_m) \\
+H
+\end{array}
+\right]
++
+\left[
+\begin{array}{c}
+-\nu_{vc} C(t) \\
+\nu_{ma} S(V_{a0}) \\
+0
+\end{array}
+\right]$$
 
 ### Results
 This is the result described in the abovementioned paper.
