@@ -195,17 +195,19 @@ In this section, we analyze the effect of removing (equating to zero) one by one
 - `Source`: the constant term $\nu_{ma} S(V_a)$.
 - `Forcing`: the time dependent term $-\nu_{vc} C(t)$.
 
+\newpage
+
 ## Case 000
 
 ### Settings
 - `Coupling`: no
-- `Source`: no
 - `Forcing`: no
+- `Source`: no
 
 ### Results
 All states decay to zero.
 
-```{r 000, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 000, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
@@ -238,50 +240,13 @@ rasterPlot(sol)
 
 ### Settings
 - `Coupling`: no
-- `Source`: no
-- `Forcing`: yes
-
-### Results
-All states decay to zero, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
-
-```{r 001, include = TRUE, echo = FALSE, fig.show='hold'}
-## Problem setting
-y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
-
-nDays <- 5
-ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
-
-parms <- philrob_default_parms()
-
-# Coupling
-parms['vmv'] <- 0
-parms['vvm'] <- 0
-parms['vvh'] <- 0
-parms['mu'] <- 0
-
-# Source
-parms['vmaSa'] <- 0
-
-# Simulate
-sol <- philrob(ts, y0, parms)
-
-# Plot
-philrobPlot(sol)
-rasterPlot(sol)
-```
-
-
-## Case 010
-
-### Settings
-- `Coupling`: no
-- `Source`: yes
 - `Forcing`: no
+- `Source`: yes
 
 ### Results
 All states decay to constant values. $V_v$ and $H$ decay to zero, and $V_m$ to a non-zero constant value.
 
-```{r 010, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 001, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
@@ -308,17 +273,56 @@ rasterPlot(sol)
 ```
 
 
+
+## Case 010
+
+### Settings
+- `Coupling`: no
+- `Forcing`: yes
+- `Source`: no
+
+### Results
+All states decay to zero, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
+
+```{r 010, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Coupling
+parms['vmv'] <- 0
+parms['vvm'] <- 0
+parms['vvh'] <- 0
+parms['mu'] <- 0
+
+# Source
+parms['vmaSa'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
+
 ## Case 011
 
 ### Settings
 - `Coupling`: no
-- `Source`: yes
 - `Forcing`: yes
+- `Source`: yes
 
 ### Results
 All states decay to constant values, with the exception of $V_v$, that keeps oscillating in synchrony with the forcing.
 
-```{r 011, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 011, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
@@ -346,13 +350,13 @@ rasterPlot(sol)
 
 ### Settings
 - `Coupling`: yes
-- `Source`: no
 - `Forcing`: no
+- `Source`: no
 
 ### Results
 All states decay to constant values. 
 
-```{r 100, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 100, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
@@ -374,49 +378,18 @@ sol <- philrob(ts, y0, parms)
 philrobPlot(sol)
 rasterPlot(sol)
 ```
-
 
 ## Case 101
 
 ### Settings
 - `Coupling`: yes
-- `Source`: no
-- `Forcing`: yes
-
-### Results
-A very reasonable behaviour arises, despite the absence of the source term.
-
-```{r 101, include = TRUE, echo = FALSE, fig.show='hold'}
-## Problem setting
-y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
-
-nDays <- 5
-ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
-
-parms <- philrob_default_parms()
-
-# Source
-parms['vmaSa'] <- 0
-
-# Simulate
-sol <- philrob(ts, y0, parms)
-
-# Plot
-philrobPlot(sol)
-rasterPlot(sol)
-```
-
-## Case 110
-
-### Settings
-- `Coupling`: yes
-- `Source`: yes
 - `Forcing`: no
+- `Source`: yes
 
 ### Results
 A periodic behavior appears despite the absence of the forcing term. Like this, the system is autonomous. The period of the oscillations is around 8 hours.
 
-```{r 110, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 101, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
@@ -436,17 +409,49 @@ philrobPlot(sol)
 rasterPlot(sol)
 ```
 
+
+## Case 110
+
+### Settings
+- `Coupling`: yes
+- `Forcing`: yes
+- `Source`: no
+
+### Results
+A very reasonable behaviour arises, despite the absence of the source term.
+
+```{r 110, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+parms <- philrob_default_parms()
+
+# Source
+parms['vmaSa'] <- 0
+
+# Simulate
+sol <- philrob(ts, y0, parms)
+
+# Plot
+philrobPlot(sol)
+rasterPlot(sol)
+```
+
+
 ## Case 111
 
 ### Settings
 - `Coupling`: yes
-- `Source`: yes
 - `Forcing`: yes
+- `Source`: yes
 
 ### Results
 This is the result described in the abovementioned paper.
 
-```{r 111, include = TRUE, echo = FALSE, fig.show='hold'}
+```{r 111, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
 y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
 
