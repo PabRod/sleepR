@@ -2,10 +2,10 @@
 title: "Phillip and Robinson's model"
 author: "Pablo Rodríguez-Sánchez"
 date: "`r Sys.Date()`"
-output: 
+output:
   pdf_document:
   html_vignette: default
-header-includes: 
+header-includes:
   - \usepackage{tikz}
   - \usepackage{pgfplots}
   - \usetikzlibrary{shapes,arrows}
@@ -65,19 +65,37 @@ where $S(V)$ is the saturation function:
 
 $$S(V) = \frac{Q_{max}}{1 + e^{-\frac{V-\theta}{\sigma}}}$$
 
-and the external forcing is given by $C(t)$:
+and the external forcing is typically given by $C(t)$:
 
-$$C(t) = \frac{1}{2} \left( 1 + cos(\omega t + \alpha) \right)$$
+$$C(t) = \frac{1}{2} \left( 1 + \cos(\omega t + \alpha) \right)$$
+
+## Parameters
+| Symbol              |      Value       | Units              |
+|:--------------------|:----------------:|:-------------------|
+| $\tau_m$            |    $10/3600$     | $h$                |
+| $\tau_v$            |    $10/3600$     | $h$                |
+| $\chi$              |      $10.8$      | $h$                |
+| $\nu_{vm}$          |    $1.9/3600$    | $mV \cdot h$       |
+| $\nu_{mv}$          |    $1.9/3600$    | $mV \cdot h$       |
+| $\nu_{vh}$          |      $0.19$      | $mV \cdot nM^{-1}$ |
+| $\mu$               |    $10^{-3}$     | $nM \cdot h$       |
+| $\nu_{vc}$          |      $6.3$       | $mV$               |
+| $\nu_{ma}S(V_{a0})$ |       $1$        | $mV$               |
+| $Q_{max}$           | $100 \cdot 3600$ | $h^{-1}$           |
+| $\theta$            |       $10$       | $mV$               |
+| $\sigma$            |       $3$        | $mV$               |
+| $\omega$            |   $2 \pi / 24$   | $h^{-1}$           |
+| $\alpha$            |       $0$        | $1$                |
 
 ## State variables
 
 The state variables are defined as:
 
-| State variable | Physiological interpetation | Informal interpretation |
-|:---------------|:----------------------------|:------------------------|
-| $V_v$          | Activity of the VLPO        | Stay asleep system      |
-| $V_m$          | Activity of the MA          | Stay awake system       |
-| $H$            | Homeostatic pressure        | Somnogen level          |
+| State variable | Units | Physiological interpetation | Informal interpretation |
+|:---------------|:-----:|:----------------------------|:------------------------|
+| $V_v$          | $mV$  | Activity of the VLPO        | Stay asleep system      |
+| $V_m$          | $mV$  | Activity of the MA          | Stay awake system       |
+| $H$            |  $1$  | Homeostatic pressure        | Somnogen level          |
 
 ## Diagram
 
@@ -88,28 +106,28 @@ The state variables are defined as:
     \tikzstyle{state} = [rectangle,draw,fill=blue!20,text width=5em,text centered,rounded corners,minimum height=4em]
     \tikzstyle{line} = [draw, -latex']
     \tikzstyle{source} = [draw, ellipse,fill=red!20, node distance=3cm,minimum height=2em]
-    
+
     % Place nodes
     % States
     \node [state] (Vv) {$V_v$};
     \node [state, below of=Vv] (Vm) {$V_m$};
     \node [state, below of=Vm] (H) {$H$};
-    
+
     % Sources
     \node [source, right of=Vv] (C) {$C(t)$};
     \node [source, right of=Vm] (A) {$A$};
-    
+
     % Draw edges
     % Sources
     \path [blue, line] (C) -> node{$\nu_{vc}$} (Vv);
     \path [line] (A) -> node{$\nu_{ma}$} (Vm);
-    
+
     % Coupling
     \path [line] (Vm) -> node{$\mu$} (H);
     \draw[red, ->] (Vv) -- node[midway, right] {$\nu_{mv}$} (Vm);
     \draw[red, ->] (Vm) -- node[midway, left] {$\nu_{vm}$} (Vv);
     \draw[->] (H.west) .. controls +(left:20mm) and +(left:20mm) .. node{$\nu_{vh}$} (Vv.west);
-    
+
     % Decay
     \draw[red, ->] (Vv.north) .. controls +(up:10mm) and +(up:10mm) .. (Vv.north west);
     \draw[red, ->] (Vm.north west) .. controls +(left:10mm) and +(left:10mm) .. (Vm.south west);
@@ -354,7 +372,7 @@ rasterPlot(sol)
 - `Source`: no
 
 ### Results
-All states decay to constant values. 
+All states decay to constant values.
 
 ```{r 100, include = TRUE, echo = FALSE, fig.show='hold', fig.height = 3}
 ## Problem setting
@@ -523,7 +541,7 @@ S <- function(V) {
 # Nullclines
 Vv_null <- function(Vm, D) { # dVv = 0
   as.numeric(D - parms['vvm'] * S(Vm))
-} 
+}
 
 Vm_null <- function(Vv) { # dVm = 0
   as.numeric(parms['vmaSa'] - parms['vmv'] * S(Vv))
@@ -542,10 +560,10 @@ roiy <- c(-4, 2)
 xs <- seq(roix[1], roix[2], length.out = 500)
 ys <- seq(roiy[1], roiy[2], length.out = 500)
 
-plot(x = xs, y = Vm_null(xs), 
+plot(x = xs, y = Vm_null(xs),
      type = 'l', xlim = roix, ylim = roiy, col = 'blue',
      xlab = 'Vv (mV)', ylab = 'Vm (mV)')
-lines(y = ys, x = Vv_null(ys, D), 
+lines(y = ys, x = Vv_null(ys, D),
      type = 'l', xlim = roix, ylim = roiy, col = 'red')
 title('Nullclines')
 
@@ -563,10 +581,10 @@ roiy <- c(-6, 0.5)
 xs <- seq(roix[1], roix[2], length.out = 500)
 ys <- seq(roiy[1], roiy[2], length.out = 500)
 
-plot(x = xs, y = Vm_null(xs), 
+plot(x = xs, y = Vm_null(xs),
      type = 'l', xlim = roix, ylim = roiy, col = 'blue',
      xlab = 'Vv (mV)', ylab = 'Vm (mV)')
-lines(y = ys, x = Vv_null(ys, D), 
+lines(y = ys, x = Vv_null(ys, D),
      type = 'l', xlim = roix, ylim = roiy, col = 'red')
 title('Nullclines')
 
@@ -591,9 +609,9 @@ limits <- c(min(c(sol$Vv, sol$Vm)),
 
 ## Plot results
 ts_days <- sol$time / 24
-plot(ts_days, sol$Vm, 
+plot(ts_days, sol$Vm,
      type = 'l', ylim = limits, col = 'blue', xlab = 't (days)', ylab = 'states (mV)')
-lines(ts_days, sol$Vv, 
+lines(ts_days, sol$Vv,
      type = 'l', col = 'red')
 title('Timeseries')
 ```
@@ -633,12 +651,12 @@ ts_days <- sol$time / 24
 
 par(mfrow = c(2, 1))
 
-plot(ts_days, D_days(ts_days), 
+plot(ts_days, D_days(ts_days),
      type = 'l', col = 'black', xlab = 't (days)', ylab = 'D(t)')
 
-plot(ts_days, sol$Vm, 
+plot(ts_days, sol$Vm,
      type = 'l', ylim = limits, col = 'blue', xlab = 't (days)', ylab = 'states (mV)')
-lines(ts_days, sol$Vv, 
+lines(ts_days, sol$Vv,
      type = 'l', col = 'red')
 
 title('Timeseries')
