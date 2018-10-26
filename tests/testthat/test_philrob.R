@@ -38,7 +38,7 @@ test_that('Default forcing function',
 test_that('Custom forcing',
           {
             # Create a simple input
-            nDays <- 8
+            nDays <- 3
             ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
             y0 <- c(Vv = -13, Vm = 1, H = 10)
 
@@ -59,10 +59,39 @@ test_that('Custom forcing',
           }
 )
 
+test_that('Stabilization run',
+          {
+            # Create a simple input
+            nDays <- 3
+            ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
+            y0 <- c(Vv = -13, Vm = 1, H = 10)
+
+            # Simulate with parameters allowing stable solution
+            parms <- philrob_default_parms()
+            parms['vmaSa'] <- 0.0
+            parms['vvc'] <- 0.0
+
+            # Simulate three days without stabilization
+            sol <- philrob(ts, y0, parms)
+
+            # Simulate one day after two days of stabilization
+            nDays_stabilized <- 1
+            ts_stabilized <- seq(0, nDays_stabilized * 24, length.out = nDays_stabilized * 24 * 20)
+            sol_stabilized <- philrob(ts_stabilized, y0, parms, tStabil = 2 * 24)
+
+            # Compare the last day for both simulations
+            sol_last_day <- tail(sol, nDays_stabilized * 24 * 20)
+
+            expect_equal(sol_last_day$Vv, sol_stabilized$Vv, tolerance = 1e-4)
+            expect_equal(sol_last_day$Vm, sol_stabilized$Vm, tolerance = 1e-4)
+            expect_equal(sol_last_day$H, sol_stabilized$H, tolerance = 1e-4)
+          }
+          )
+
 test_that('Stable solution',
           {
             # Create a simple input
-            nDays <- 8
+            nDays <- 3
             ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
             y0 <- c(Vv = -13, Vm = 1, H = 10)
 

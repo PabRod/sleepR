@@ -4,7 +4,7 @@
 \alias{philrob}
 \title{Solve Phillip and Robinson's model}
 \usage{
-philrob(ts, y0, parms = philrob_default_parms(), ...)
+philrob(ts, y0, parms = philrob_default_parms(), tStabil = 0, ...)
 }
 \arguments{
 \item{ts}{Vector of times (in h)}
@@ -12,6 +12,8 @@ philrob(ts, y0, parms = philrob_default_parms(), ...)
 \item{y0}{Initial condition}
 
 \item{parms}{Model parameters (optional, see \code{\link{philrob_default_parms}})}
+
+\item{tStabil}{Stabilization time (in h)}
 
 \item{...}{Additional arguments passed to the \code{\link{ode}} integrator}
 }

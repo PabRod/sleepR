@@ -163,7 +163,7 @@ nDays <- 5
 ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
 
 # Simulate
-sol_paper <- philrob(ts, y0)
+sol <- philrob(ts, y0)
 
 ```
 
@@ -198,10 +198,24 @@ C <- function(t) { 0 }
 sol <- philrob(ts, y0, parms = philrob_default_parms(), forcing = C)
 ```
 
+With stabilization run of three days:
+
+```{r Problem posing with stabilization run, include = TRUE}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 5
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+# Simulate
+sol <- philrob(ts, y0, tStabil = 3*24)
+
+```
+
 The output looks like:
 
 ```{r Display output, echo=FALSE, results='asis'}
-knitr::kable(head(sol_paper, 5))
+knitr::kable(head(sol, 5))
 ```
 
 where:
@@ -217,8 +231,8 @@ where:
 ### Raster / somnogram plot
 
 ```{r Plotting, include = TRUE, fig.show='hold'}
-philrobPlot(sol_paper)
-rasterPlot(sol_paper)
+philrobPlot(sol)
+rasterPlot(sol)
 ```
 
 \newpage
@@ -281,7 +295,7 @@ parms['vmaSa'] <- 0
 parms['vvc'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -333,7 +347,7 @@ parms['mu'] <- 0
 parms['vvc'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -387,7 +401,7 @@ parms['mu'] <- 0
 parms['vmaSa'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -438,7 +452,7 @@ parms['vvh'] <- 0
 parms['mu'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -496,7 +510,7 @@ parms['vmaSa'] <- 0
 parms['vvc'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -557,7 +571,7 @@ parms <- philrob_default_parms()
 parms['vvc'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -619,7 +633,7 @@ parms <- philrob_default_parms()
 parms['vmaSa'] <- 0
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)
@@ -679,7 +693,7 @@ ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
 parms <- philrob_default_parms()
 
 # Simulate
-sol <- philrob(ts, y0, parms)
+sol <- philrob(ts, y0, parms, tStabil = 24*3)
 
 # Plot
 philrobPlot(sol)

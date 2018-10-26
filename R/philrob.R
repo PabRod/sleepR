@@ -50,6 +50,7 @@ dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_defau
 #' @param ts Vector of times (in h)
 #' @param y0 Initial condition
 #' @param parms Model parameters (optional, see \code{\link{philrob_default_parms}})
+#' @param tStabil Stabilization time (in h)
 #' @param ... Additional arguments passed to the \code{\link{ode}} integrator
 #'
 #' @return Results of the simulation, including times, states and asleep/awake status
@@ -71,7 +72,19 @@ dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_defau
 #' nDays <- 30
 #' ts <- seq(0, nDays*24, length.out = nDays*24*20)
 #' sol <- philrob(ts, y0)
-philrob <- function(ts, y0, parms = philrob_default_parms(), ...) {
+philrob <- function(ts, y0, parms = philrob_default_parms(), tStabil = 0, ...) {
+
+  # Stabilize the solution if required...
+  if(tStabil != 0) {
+    sol_aux <- ode(y = y0,
+                func = dPhilrob,
+                times = seq(ts[1], ts[1] + tStabil, length.out = 100),
+                parms = parms,
+                ...)
+
+    last <- tail(sol_aux, 1) # ... by using the last simulated point...
+    y0 <- c(Vv = last[,'Vv'], Vm = last[,'Vm'], H = last[,'H']) # ... as new initial condition
+  }
 
   # Solve
   sol <- ode(y = y0,
