@@ -19,6 +19,46 @@ test_that('Parameters',
           }
 )
 
+test_that('Default forcing function',
+          {
+            # Load the default forcing
+            C <- philrob_default_forcing()
+
+            ts <- seq(0, 24, length.out = 100)
+            fs <- C(ts)
+
+            # Check that it is bounded between 0 and 1
+            tol <- 0.002
+            expect_equal(max(fs), 1, tolerance = tol)
+            expect_equal(min(fs), 0, tolerance = tol)
+
+          }
+)
+
+test_that('Custom forcing',
+          {
+            # Create a simple input
+            nDays <- 8
+            ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
+            y0 <- c(Vv = -13, Vm = 1, H = 10)
+
+            # Load parameters
+            parms <- philrob_default_parms()
+
+            # Case 1: no forcing through forcing equal to zero
+            C <- function(t) { 0.0 }
+            sol_custom_forcing <- philrob(ts, y0, parms, C = C)
+
+            # Case 2: no forcing through forcing coupling equal to zero
+            parms['vvc'] <- 0
+            sol_custom_pars <- philrob(ts, y0, parms)
+
+            # Both examples should be equivalent
+            expect_equal(sol_custom_pars, sol_custom_forcing)
+
+          }
+)
+
 test_that('Stable solution',
           {
             # Create a simple input

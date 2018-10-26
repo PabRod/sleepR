@@ -4,7 +4,8 @@
 \alias{dPhilrob}
 \title{Phillips and Robinson's model flow}
 \usage{
-dPhilrob(time, y, parms = philrob_default_parms())
+dPhilrob(time, y, parms = philrob_default_parms(),
+  C = philrob_default_forcing(parms = philrob_default_parms()))
 }
 \arguments{
 \item{time}{The time (in h)}
@@ -12,6 +13,8 @@ dPhilrob(time, y, parms = philrob_default_parms())
 \item{y}{The state}
 
 \item{parms}{Model's parameters (optional, see \code{\link{philrob_default_parms}})}
+
+\item{C}{External forcing as a function of t (in h) (optional, see \code{\link{philrob_default_forcing}})}
 }
 \value{
 The flow (right hand side of the differential equation)

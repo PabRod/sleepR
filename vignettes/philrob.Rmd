@@ -163,7 +163,7 @@ nDays <- 5
 ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
 
 # Simulate
-sol <- philrob(ts, y0)
+sol_paper <- philrob(ts, y0)
 
 ```
 
@@ -183,10 +183,25 @@ parms['vvc'] <- 6 # .. and modify one
 sol <- philrob(ts, y0, parms)
 ```
 
+With custom forcing:
+
+```{r Problem posing with custon forcing, include = TRUE}
+## Problem setting
+y0 <- c(Vv = -13, Vm = 1, H = 10) # Initial conditions
+
+nDays <- 3
+ts <- seq(0, nDays*24, length.out=nDays*24*20) # Times to simulate
+
+C <- function(t) { 0 }
+
+# Simulate
+sol <- philrob(ts, y0, parms = philrob_default_parms(), forcing = C)
+```
+
 The output looks like:
 
 ```{r Display output, echo=FALSE, results='asis'}
-knitr::kable(head(sol, 5))
+knitr::kable(head(sol_paper, 5))
 ```
 
 where:
@@ -202,8 +217,8 @@ where:
 ### Raster / somnogram plot
 
 ```{r Plotting, include = TRUE, fig.show='hold'}
-philrobPlot(sol)
-rasterPlot(sol)
+philrobPlot(sol_paper)
+rasterPlot(sol_paper)
 ```
 
 \newpage

@@ -5,6 +5,7 @@
 #' @param time The time (in h)
 #' @param y  The state
 #' @param parms Model's parameters (optional, see \code{\link{philrob_default_parms}})
+#' @param C External forcing as a function of t (in h) (optional, see \code{\link{philrob_default_forcing}})
 #'
 #' @return The flow (right hand side of the differential equation)
 #'
@@ -23,7 +24,7 @@
 #' y <- c(Vv = 1, Vm = 1, H = 1)
 #' dy <- dPhilrob(t, y)
 #' }
-dPhilrob <- function(time, y, parms = philrob_default_parms()) {
+dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_default_forcing(parms = philrob_default_parms())) {
   with(as.list(c(y, parms)), {
 
     # Auxiliary functions
@@ -33,15 +34,10 @@ dPhilrob <- function(time, y, parms = philrob_default_parms()) {
       Qmax/(1 + exp((theta-V)/sigma))
     }
 
-    ## Forcing (approximation)
-    C <- function(t) {
-      0.5*(1 + cos(w*(t - alpha)))
-    }
-
     # Dynamics
     dVv <- (            -vvm*S(Vm) + vvh*H - vvc*C(time) - Vv)/tauv # Ventro-lateral preoptic area activity
-    dVm <- (-vmv*S(Vv)                     + vmaSa       - Vm)/taum # Mono-aminergic group activity
-    dH <-  (              mu*S(Vm)                       -  H)/Xi # Homeostatic pressure
+    dVm <- (-vmv*S(Vv)                     + vmaSa             - Vm)/taum # Mono-aminergic group activity
+    dH <-  (              mu*S(Vm)                             -  H)/Xi # Homeostatic pressure
 
     return(list(c(dVv, dVm, dH)))
   })
@@ -192,11 +188,7 @@ philrob_simplified <- function(ts, y0, drive, parms = philrob_default_parms(), .
 
 #' Default parameters of Phillips and Robinson's model
 #'
-#' Loads the parameters used in Phillips and Robinson's model model
-#'
-#' Phillips AJK, Robinson PA.
-#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
-#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#' Loads the parameters used in Phillips and Robinson's model
 #'
 #' @return The default parameters for Strogatz's model
 #'
@@ -209,7 +201,7 @@ philrob_simplified <- function(ts, y0, drive, parms = philrob_default_parms(), .
 #' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
 #' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 #'
-#' @seealso \code{\link{philrob}, \link{dPhilrob}, \link{philrob_simplified}, \link{dPhilrob_simplified}}
+#' @seealso \code{\link{philrob_default_forcing}, \link{philrob}, \link{dPhilrob}, \link{philrob_simplified}, \link{dPhilrob_simplified}}
 #'
 #' @examples
 #' parms <- philrob_default_parms()
@@ -232,4 +224,28 @@ philrob_default_parms <- function() {
             w = 2*pi/T, # h^-1
             alpha = 0.0) # rad
 
+}
+
+#' Default forcing function
+#'
+#' @param parms Parameters (optional)
+#'
+#' @return The standard offset + cosine forcing function
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Phillips AJK, Robinson PA.
+#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#'
+#' @seealso \code{\link{philrob}, \link{dPhilrob}}
+#'
+#' @examples
+#' \dontrun{
+#' C <- function(t) { philrob_default_forcing(t) }
+#' t <- seq(0, 3, length.out = 10)
+#' }
+philrob_default_forcing <- function(parms = philrob_default_parms()) {
+    C <- function(t) { 0.5*(1 + cos(parms['w']*(t - parms['alpha']))) }
 }
