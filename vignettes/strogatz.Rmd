@@ -18,11 +18,27 @@ knitr::opts_chunk$set(
 library(sleepR)
 ```
 # Model
-The function `strogatz` simulates Strogatz's model for sleep-wake dynamics. For more details:
+The function `strogatz` simulates Strogatz's model for sleep-wake dynamics. The dynamics have the following structure:
+
+$$
+\dot \theta_1 = \omega_1 - C_1 \cdot \cos(2 \pi (\theta_2 - \theta_1)) \\
+\dot \theta_2 = \omega_2 + C_2 \cdot \cos(2 \pi (\theta_2 - \theta_1))
+$$
+
+it is useful to note that, using the relative phase $\psi \equiv \theta_1 - \theta_2$, the system can be simplified to:
+
+$$
+\dot \psi = \Omega - C \cos(2 \pi \psi)
+$$
+where $\Omega \equiv \omega_1 - \omega_2$ and $C \equiv C_1 + C_2$
+
+# Reference
 
 Strogatz, S. H. (1987).
 Human sleep and circadian rhythms: a simple model based on two coupled oscillators.
 Journal of Mathematical Biology, 25(3), 327–347. http://doi.org/10.1007/BF00276440
+
+\newpage
 
 # Examples of usage
 
