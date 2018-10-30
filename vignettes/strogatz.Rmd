@@ -25,12 +25,18 @@ $$
 \dot \theta_2 = \omega_2 + C_2 \cdot \cos(2 \pi (\theta_2 - \theta_1))
 $$
 
-it is useful to note that, using the relative phase $\psi \equiv \theta_1 - \theta_2$, the system can be simplified to:
+# Analysis
+
+It is useful to note that, using the relative phase $\psi \equiv \theta_1 - \theta_2$, the system can be simplified to:
 
 $$
 \dot \psi = \Omega - C \cos(2 \pi \psi)
 $$
-where $\Omega \equiv \omega_1 - \omega_2$ and $C \equiv C_1 + C_2$
+where $\Omega \equiv \omega_1 - \omega_2$ and $C \equiv C_1 + C_2$. The relative phase can be stabilized if and only if $\dot \psi = 0$, and this is only possible if:
+
+$$
+\lvert \frac{\Omega}{C} \rvert \leq 1
+$$
 
 # Reference
 
