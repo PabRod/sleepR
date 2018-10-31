@@ -19,6 +19,80 @@ test_that('Parameters',
           }
 )
 
+test_that('Saturation function',
+          {
+            parms <- philrob_default_parms()
+            S <- function(V) saturating_function(V, parms)
+
+            numerical_inf <- 1e10
+
+            with(as.list(parms), {
+              expect_equal(S(numerical_inf), Qmax) # Horizontal asymptote
+              expect_equal(S(theta), Qmax/2) # Half saturation value
+              expect_equal(S(0), Qmax/(1 + exp(theta/sigma))) # Intercept
+            })
+          }
+)
+
+test_that('Derivative of saturation function',
+          {
+            parms <- philrob_default_parms()
+            dS <- function(V) dSaturating_function(V, parms)
+
+            numerical_inf <- 1e10
+
+            with(as.list(parms), {
+              expect_equal(dS(numerical_inf), 0) # Horizontal asymptote
+              expect_equal(dS(theta), Qmax/(4*sigma)) # Half saturation value
+            })
+          }
+)
+
+test_that('Jacobian',
+          {
+            # Constant case
+            parms <- philrob_default_parms()
+            parms['vvm'] <- 0
+            parms['vvh'] <- 0
+            parms['vmv'] <- 0
+            parms['mu'] <- 0
+
+            y <- c(Vv = 2, Vm = 3, H = 4)
+            J <- philrob_jacobian(y, parms)
+
+            with(as.list(parms),
+                 {
+                   expected <- diag(-1,3) * c(1/tauv, 1/taum, 1/Xi)
+                   expect_true(all(J == expected))
+                 }
+                 )
+
+            # Comparison with analytical derivation
+            # parms <- philrob_default_parms()
+            #
+            # y <- c(Vv = 2, Vm = 3, H = 4)
+            # dS <- function(x) dSaturating_function(y, parms)
+            # J <- philrob_jacobian(y, parms)
+            #
+            # vec <- c(-1/parms['tauv']            , -parms['vvm']/parms['tauv']*dS(y['Vm']), parms['vvh']/parms['tauv'],
+            #          -parms['vmv']/parms['taum']*dS(y['Vv']) , -1/parms['taum']           , 0 ,
+            #          0                  , parms['mu']/parms['Xi']*dS(y['Vm'])    , -1/parms['Xi'])
+            #
+            # expected <- matrix(vec, nrow = 3, ncol = 3, byrow = TRUE)
+            # expect_equal(J, expected)
+
+            # with(as.list(parms), {
+            #   vec <- c(-1/tauv            , -vvm/tauv * dS(Vm), vvh/tauv,
+            #            -vmv/taum * dS(Vv) , -1/taum           , 0 ,
+            #            0                  , mu/Xi * dS(Vm)    , -1/Xi)
+            #
+            #   expected <- matrix(vec, nrow = 3, ncol = 3, byrow = TRUE)
+            #   expect_equal(J, expected)
+            # })
+
+          }
+)
+
 test_that('Default forcing function',
           {
             # Load the default forcing

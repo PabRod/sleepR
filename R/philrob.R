@@ -16,7 +16,7 @@
 #' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
 #' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
 #'
-#' @seealso \code{\link{philrob}, \link{philrob_default_parms}}
+#' @seealso \code{\link{philrob}, \link{philrob_default_parms}, \link{saturating_function}}
 #'
 #' @examples
 #' \dontrun{
@@ -27,12 +27,7 @@
 dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_default_forcing(parms = philrob_default_parms())) {
   with(as.list(c(y, parms)), {
 
-    # Auxiliary functions
-
-    ## Sigmoid growth
-    S <- function(V) {
-      Qmax/(1 + exp((theta-V)/sigma))
-    }
+    S <- function(V) saturating_function(V, parms)
 
     # Dynamics
     dVv <- (            -vvm*S(Vm) + vvh*H - vvc*C(time) - Vv)/tauv # Ventro-lateral preoptic area activity
@@ -41,6 +36,98 @@ dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_defau
 
     return(list(c(dVv, dVm, dH)))
   })
+}
+
+#' Saturating function
+#'
+#' @param V voltage (in mV)
+#' @param parms Model's parameters (optional, see \code{\link{philrob_default_parms}})
+#'
+#' @return The saturated effect of the voltage
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Phillips AJK, Robinson PA.
+#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#'
+#' @seealso \code{\link{philrob}, \link{philrob_default_parms}}
+#'
+#' @examples
+#' \dontrun{
+#' saturating_function(1)
+#' }
+saturating_function <- function(V, parms = philrob_default_parms()) {
+  with(as.list(parms), {
+    Qmax/(1 + exp((theta-V)/sigma))
+  })
+}
+
+#' Derivative of the saturating function
+#'
+#' @param V voltage (in mV)
+#' @param parms Model's parameters (optional, see \code{\link{philrob_default_parms}})
+#'
+#' @return The derivative of the saturation function
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Phillips AJK, Robinson PA.
+#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#'
+#' @seealso \code{\link{philrob}, \link{saturating_function}}
+#'
+#' @examples
+#' \dontrun{
+#' dSaturating_function(1)
+#' }
+dSaturating_function <- function(V, parms = philrob_default_parms()) {
+  S <- function(V) saturating_function(V, parms)
+
+  with(as.list(parms), {
+    exp((theta-V)/sigma)/(Qmax * sigma) * S(V)^2 # Derived analitically
+  })
+}
+
+#' Jacobian of the Phillips and Robinson's model equations
+#'
+#' @param y  The state
+#' @param parms Model's parameters (optional, see \code{\link{philrob_default_parms}})
+#'
+#' @return The jacobian of the model's equations (for constant forcing)
+#'
+#' @export
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @references
+#' Phillips AJK, Robinson PA.
+#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
+#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
+#'
+#' @seealso \code{\link{philrob}, \link{dPhilrob}}
+#'
+#' @examples
+#' y <- c(Vv = 1, Vm = 1, H = 1)
+#' J <- philrob_jacobian(y)
+philrob_jacobian <- function(y, parms = philrob_default_parms()) {
+
+  # Auxiliary functions
+  dS <- function (V) dSaturating_function(V, parms)
+
+  with(as.list(c(y, parms)), {
+    # Analytically derived jacobian
+    vec <- c(-1/tauv            , -vvm/tauv * dS(Vm), vvh/tauv,
+             -vmv/taum * dS(Vv) , -1/taum           , 0       ,
+             0                  , mu/Xi * dS(Vm)    , -1/Xi)
+
+    # Reshape as matrix
+    matrix(vec, nrow = 3, ncol = 3, byrow = TRUE)
+  })
+
 }
 
 #' Solve Phillip and Robinson's model
