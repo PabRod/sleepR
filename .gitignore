@@ -8,3 +8,4 @@ scripts
 # Documents
 inst/doc
 *.pdf
+vignettes/analysis_cache/
