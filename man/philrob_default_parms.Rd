@@ -7,7 +7,7 @@
 philrob_default_parms()
 }
 \value{
-The default parameters for Strogatz's model
+The default parameters for Phillips and Robinson's model
 }
 \description{
 Loads the parameters used in Phillips and Robinson's model

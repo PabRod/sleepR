@@ -197,7 +197,7 @@ philrob <- function(ts, y0, parms = philrob_default_parms(), tStabil = 0, ...) {
 #'
 #' Loads the parameters used in Phillips and Robinson's model
 #'
-#' @return The default parameters for Strogatz's model
+#' @return The default parameters for Phillips and Robinson's model
 #'
 #' @export
 #'
