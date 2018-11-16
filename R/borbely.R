@@ -101,7 +101,7 @@ borbelyPlot <- function(sol) {
 
   plot(ts_days, sol$H, type = 'l', col = 'blue',
        ylim = c(min(sol$lower), max(sol$upper)),
-       xlab = 'time (d)', ylab = 'states')
+       xlab = 'time (d)', ylab = 'sleep pressure')
   lines(ts_days, sol$upper, lty = 'dashed')
   lines(ts_days, sol$lower, lty = 'dashed')
 }
