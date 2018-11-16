@@ -34,8 +34,8 @@ borbely <- function(ts, y0, awake0 = FALSE, parms = borbely_default_parms()) {
   lower <- as.numeric(parms['Hl0'] + parms['a']*C(ts))
 
   # Pieces to construct the piecewise function
-  Ha <- function(t, H0) as.numeric(H0*exp(-t/parms['Xiw'])) # Awake
-  Hs <- function(t, H0) as.numeric(parms['mu'] + (H0 - parms['mu'])*exp(-t/parms['Xis'])) # Sleeping
+  Hs <- function(t, H0) as.numeric(H0*exp(-t/parms['Xis'])) # Sleeping
+  Ha <- function(t, H0) as.numeric(parms['mu'] + (H0 - parms['mu'])*exp(-t/parms['Xiw'])) # Awake
   Hc <- function(t, H0, awake) awake*Ha(t, H0) + (!awake)*Hs(t, H0); # Auxiliary function combining both previous
 
   # Initialize containers
@@ -50,8 +50,8 @@ borbely <- function(ts, y0, awake0 = FALSE, parms = borbely_default_parms()) {
     H[i] <- Hc(ts[i] - ts[i-1], H[i-1], awake[i-1])
 
     # Set triggers
-    wake_trigger <- ( (!awake[i-1]) & (H[i] >= upper[i]) ) # Sleeping and recovering
-    sleep_trigger <- ( (awake[i-1]) & (H[i] <= lower[i]) ) # Awake and tired
+    wake_trigger <- ( (!awake[i-1]) & (H[i] <= lower[i]) ) # Sleeping and recovering
+    sleep_trigger <- ( (awake[i-1]) & (H[i] >= upper[i]) ) # Awake and tired
 
     # Update awake/sleeping status
     if (wake_trigger) {
@@ -133,7 +133,7 @@ borbely_default_parms <- function() {
             a = 0.1, # 1
             w = 2*pi/24, # h^-1
             alpha = 0, # h
-            Hu0 = 0.85, # 1
+            Hu0 = 0.6, # 1
             Hl0 = 0.17) # 1
 
 }
