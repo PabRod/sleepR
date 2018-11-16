@@ -10,7 +10,7 @@ philrobPlot(sol)
 \item{sol}{Solution of a philrob simulation}
 }
 \value{
-The time series
+The simulation's plot
 }
 \description{
 Plots the time series generated with philrob
