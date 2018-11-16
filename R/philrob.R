@@ -24,7 +24,7 @@
 #' y <- c(Vv = 1, Vm = 1, H = 1)
 #' dy <- dPhilrob(t, y)
 #' }
-dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_default_forcing(parms = philrob_default_parms())) {
+dPhilrob <- function(time, y, parms = philrob_default_parms(), C = philrob_default_forcing(parms)) {
   with(as.list(c(y, parms)), {
 
     S <- function(V) saturating_function(V, parms)
