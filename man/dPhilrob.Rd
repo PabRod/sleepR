@@ -5,7 +5,7 @@
 \title{Phillips and Robinson's model flow}
 \usage{
 dPhilrob(time, y, parms = philrob_default_parms(),
-  C = philrob_default_forcing(parms = philrob_default_parms()))
+  C = philrob_default_forcing(parms))
 }
 \arguments{
 \item{time}{The time (in h)}

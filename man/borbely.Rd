@@ -24,7 +24,6 @@ Solves the Borbely's sleep-wake model for the given times, initial condition and
 \examples{
 ts <- seq(0, 10, length.out = 2000)
 sol <- borbely(seq(0, 10, length.out = 2000), 1)
-plotBorbely(sol)
 }
 \references{
 Skeldon AC, Dijk D-J, Derks G. Mathematical Models for Sleep-Wake Dynamics:
