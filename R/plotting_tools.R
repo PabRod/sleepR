@@ -39,6 +39,41 @@ rasterPlot <- function(sol, dailySamples = 480, asleepCol = 'grey26', awakeCol =
   axis(2, at = seq(0, nDays))
 }
 
+#' Lissajous figure
+#'
+#' @param times Times vector
+#' @param ys State vector
+#' @param wx (Optional) Reference frequency. Default: 2*pi/24
+#' @param Ax (Optional) Reference amplitude. Default: 1
+#' @param alphax (Optional) Reference phase delay. Default: 0
+#' @param ... (Optional) Graphical parameters
+#'
+#' @return Plots the Lissajous figure
+#' @export
+#'
+#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
+#'
+#' @examples
+#' # Simulate a solution
+#' nDays <- 8
+#' ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
+#' y0 <- c(Vv = -12.6404, Vm = 0.8997, H = 12.5731) # This point is already close to the attractor
+#' sol <- philrob(ts, y0, method = 'lsode')
+#' # Create the figure
+#' lissajous_figure(ts, sol$H)
+lissajous_figure <- function(times, ys, wx = 2*pi/24, Ax = 1, alphax = 0, ...) {
+
+  lissajous <- function(times, ys, wx = 2*pi/24, Ax = 1, alphax = 0) {
+    xs <- Ax*sin(wx*times + alphax)
+
+    lis <- data.frame(times, xs, ys)
+  }
+
+  lis <- lissajous(times, ys, wx = wx, Ax = Ax, alphax = alphax)
+
+  plot(lis$xs, lis$ys, ...)
+}
+
 #' Plots the time series generated with philrob
 #'
 #' @param sol Solution of a philrob simulation

@@ -57,3 +57,16 @@ test_that('Philrob plot',
           }
 
 )
+
+test_that('Lissajous',
+          {
+            # Calculate a solution
+            nDays <- 8
+            ts <- seq(0, nDays * 24, length.out = nDays * 24 * 20)
+            y0 <- c(Vv = -12.6404, Vm = 0.8997, H = 12.5731) # This point is already close to the attractor
+            sol <- philrob(ts, y0, method = 'lsode')
+
+            # Create the figure
+            lissajous_figure(ts, sol$H)
+          }
+)
