@@ -42,22 +42,6 @@ test_that('Raster plot',
           }
 )
 
-test_that('Philrob plot',
-          {
-            # Calculate a solution
-            y0 <- c(Vv = 1, Vm = 1, H = 1) # Initial conditions
-            nDays <- 6 # Times
-            ts <- seq(0, nDays*24, length.out=nDays*24*20)
-            sol <- philrob(ts, y0) # Simulate
-
-            philrobPlot(sol)
-
-            # Just check that the code doesn't crash
-            expect_true(TRUE)
-          }
-
-)
-
 test_that('Lissajous',
           {
             # Calculate a solution
