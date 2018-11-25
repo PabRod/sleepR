@@ -74,43 +74,6 @@ lissajous_figure <- function(times, ys, wx = 2*pi/24, Ax = 1, alphax = 0, ...) {
   plot(lis$xs, lis$ys, ...)
 }
 
-#' Plots the time series generated with philrob
-#'
-#' @param sol Solution of a philrob simulation
-#'
-#' @return The simulation's plot
-#'
-#' @export
-#' @importFrom graphics plot lines axis
-#'
-#' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
-#'
-#' @references
-#' Phillips AJK, Robinson PA.
-#' A Quantitative Model of Sleep-Wake Dynamics Based on the Physiology of the Brainstem Ascending Arousal System.
-#' J Biol Rhythms. 2007 Apr 29;22(2):167–79. Available from: http://journals.sagepub.com/doi/10.1177/0748730406297512
-#'
-#' @seealso \code{\link{philrob}}
-#'
-#' @examples
-#' # Generate a solution
-#' y0 <- c(Vv = -13, Vm = 1, H = 10)
-#' nDays <- 30
-#' ts <- seq(0, nDays*24, length.out = nDays*24*20)
-#' sol <- philrob(ts, y0)
-#' # Plot it
-#' philrobPlot(sol)
-philrobPlot <- function(sol) {
-  ts_days <- sol$time / 24 # Use days
-  states <- subset(sol, select = c('Vv', 'Vm', 'H')) # Used to define limits
-
-  plot(ts_days, sol$Vm, type = 'l', col = 'blue',
-       ylim = c(min(states), max(states)),
-       xlab = 'time (d)', ylab = 'states')
-  lines(ts_days, sol$Vv, col = 'red')
-  lines(ts_days, sol$H, col = 'green4')
-}
-
 #' Reshape as raster vector
 #'
 #' @param sol Simulation (output of \code{\link{strogatz}})
