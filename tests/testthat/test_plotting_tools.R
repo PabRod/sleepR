@@ -52,5 +52,8 @@ test_that('Lissajous',
 
             # Create the figure
             lissajous_figure(ts, sol$H)
+
+            # Just check that the code doesn't crash
+            expect_true(TRUE)
           }
 )
