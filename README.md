@@ -2,9 +2,24 @@
 [![codecov](https://codecov.io/gh/PabRod/sleepR/branch/master/graph/badge.svg?token=tVmhqzqNuM)](https://codecov.io/gh/PabRod/sleepR)
 
 # SleepR
+Simulation of different sleep-wake deterministic models. See references below.
+
+## Installing
+
+### Latest stable version
+Type `devtools::install_github("PabRod/sleepR", ref = "master")` in your `R` command console.
+
+### Latest version
+Type `devtools::install_github("PabRod/sleepR", ref = "develop")` in your `R` command console.
+
+### Running the tests
+The integrity of this package can be checked by running the battery of tests available at `./tests`.
 
 ## Author
 Pablo Rodríguez-Sánchez [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-2855-940X)
+
+## Examples of usage
+Check (and run) the vignettes folder for examples of usage.
 
 ## References
 - Strogatz, S. H. (1987). Human sleep and circadian rhythms: a simple model based on two coupled oscillators. Journal of Mathematical Biology, 25(3), 327–347. http://doi.org/10.1007/BF00276440
