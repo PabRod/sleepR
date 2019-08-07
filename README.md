@@ -19,7 +19,11 @@ The integrity of this package can be checked by running the battery of tests ava
 Pablo Rodríguez-Sánchez [![](https://orcid.org/sites/default/files/images/orcid_16x16.png)](https://orcid.org/0000-0002-2855-940X)
 
 ## Examples of usage
-Check (and run) the [vignettes](https://github.com/PabRod/sleepR/tree/master/vignettes) folder for examples of usage.
+Examples available at the vignettes for:
+
+- [Phillips and Robinson's model](inst/doc/philrob.pdf)
+- [Kronauer's model](inst/doc/kronauer.pdf)
+- [Strogatz's model](inst/doc/strogatz.pdf)
 
 ## References
 - Strogatz, S. H. (1987). Human sleep and circadian rhythms: a simple model based on two coupled oscillators. Journal of Mathematical Biology, 25(3), 327–347. http://doi.org/10.1007/BF00276440

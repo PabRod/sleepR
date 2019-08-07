@@ -5,7 +5,9 @@
 
 # Custom scripts
 scripts
-# Documents
-inst/doc
-*.pdf
+
+# Data folder
+data
+
+# Cache
 vignettes/analysis_cache/
