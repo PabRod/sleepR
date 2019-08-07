@@ -276,6 +276,8 @@ philrob_default_parms <- function() {
 #'
 #' @return The standard offset + cosine forcing function
 #'
+#' @export
+#'
 #' @author Pablo Rodríguez-Sánchez (\url{https://pabrod.github.io})
 #'
 #' @references
