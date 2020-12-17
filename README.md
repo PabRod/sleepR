@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/PabRod/sleepR.svg?token=Fq3EdNLAbvvXT6TczBaZ&branch=master)](https://travis-ci.com/PabRod/sleepR)
+[![Build Status](https://github.com/PabRod/sleepR/workflows/R-CMD-check/badge.svg?branch=master)](https://github.com/PabRod/sleepR/actions)
 [![codecov](https://codecov.io/gh/PabRod/sleepR/branch/master/graph/badge.svg?token=tVmhqzqNuM)](https://codecov.io/gh/PabRod/sleepR)
 [![codecov](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
