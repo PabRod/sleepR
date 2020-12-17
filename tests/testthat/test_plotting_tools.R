@@ -16,7 +16,6 @@ test_that('Raster vector',
             class_expected <- 'matrix'
             dim_expected <- c(floor(nDays-1), 2 * dailySamples)
 
-            expect_true(class(asleep_raster) == class_expected)
             expect_true(all(dim(asleep_raster) == dim_expected))
 
             expect_equal(max(asleep_raster, na.rm = TRUE), 1)
